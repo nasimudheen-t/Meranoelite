@@ -1,26 +1,147 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  /* MAIN COLORS */
+  --color-background: #664930;
+  --color-secondary: #997E67;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* PRIMARY BRAND COLORS */
+  --color-primary: #FFDBBB;
+  --color-accent: #CCBEB1;
+  --color-highlight: #997E67;
+  --color-dark-brown: #664930;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  /* TEXT COLORS */
+  --color-text-white: #FFF8F2;
+  --color-text-gray: #E7D8CA;
+  --color-text-muted: #CCBEB1;
+
+  /* GLASS EFFECT */
+  --color-glass-border: rgba(255, 219, 187, 0.15);
+  --color-glass-bg: rgba(204, 190, 177, 0.08);
+
+  /* FONTS */
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-space);
+
+  /* ANIMATIONS */
+  --animate-fade-in: fade-in 0.5s ease-out;
+  --animate-fade-up: fade-up 0.5s ease-out;
+  --animate-glow: glow 3s ease-in-out infinite alternate;
+  --animate-float: float 6s ease-in-out infinite;
+
+  /* KEYFRAMES */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes glow {
+    from {
+      box-shadow: 0 0 10px rgba(255, 219, 187, 0.15);
+    }
+
+    to {
+      box-shadow: 0 0 30px rgba(255, 219, 187, 0.35);
+    }
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+
+    50% {
+      transform: translateY(-10px);
+    }
+
+    100% {
+      transform: translateY(0px);
+    }
   }
 }
 
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text-white);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #997E67;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FFDBBB;
+}
+
+/* SELECTION */
+::selection {
+  background: #FFDBBB;
+  color: #664930;
+}
+
+/* OPTIONAL UTILITY CLASSES */
+
+.glass-card {
+  background: var(--color-glass-bg);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--color-glass-border);
+}
+
+.text-gradient {
+  background: linear-gradient(
+    to right,
+    #FFDBBB,
+    #CCBEB1,
+    #997E67
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(102, 73, 48, 0.55),
+    rgba(102, 73, 48, 0.82)
+  );
 }

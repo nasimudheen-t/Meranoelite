@@ -7,11 +7,10 @@ import { Star, Quote } from "lucide-react";
 
 export function Testimonials() {
   return (
-    <section
-      className="relative overflow-hidden bg-[#F6F1EB] py-24 md:py-32"
-    >
+    <section className="relative overflow-hidden bg-[#050505] py-24 md:py-32">
+      
       {/* BACKGROUND GLOW */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#FFDBBB]/20 blur-[140px] rounded-full pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#D9B38C]/10 blur-[140px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-10 relative z-10">
 
@@ -19,23 +18,26 @@ export function Testimonials() {
         <div className="text-center max-w-3xl mx-auto mb-20">
 
           {/* SMALL TEXT */}
-          <span className="uppercase tracking-[0.3em] text-sm text-[#997E67] font-semibold block mb-5">
+          <span className="uppercase tracking-[0.35em] text-sm text-[#D9B38C] font-semibold block mb-5">
             Testimonials
           </span>
 
           {/* TITLE */}
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight text-[#664930] mb-6">
+          <h2
+            className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight text-white mb-6"
+            style={{ fontFamily: "serif" }}
+          >
             What Our Clients <br />
 
-            <span className="text-[#997E67]">
+            <span className="italic font-normal text-[#D9B38C]">
               Say About Us
             </span>
           </h2>
 
           {/* DESCRIPTION */}
-          <p className="text-[#7A6757] text-lg leading-relaxed">
-            Elegant lighting experiences crafted for luxury
-            interiors, modern living, and architectural beauty.
+          <p className="text-white/60 text-lg leading-relaxed">
+            Premium lighting experiences crafted for luxury interiors,
+            smart living, and modern architectural elegance.
           </p>
         </div>
 
@@ -54,13 +56,13 @@ export function Testimonials() {
               }}
             >
               {/* CARD */}
-              <div className="group relative h-full overflow-hidden rounded-[32px] border border-[#CCBEB1]/20 bg-white/70 backdrop-blur-2xl p-8 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(102,73,48,0.12)]">
+              <div className="group relative h-full overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.03] backdrop-blur-2xl p-8 transition-all duration-500 hover:-translate-y-2 hover:border-[#D9B38C]/20 hover:bg-white/[0.05]">
 
                 {/* TOP LINE */}
-                <div className="absolute top-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-[#997E67] to-transparent opacity-30" />
+                <div className="absolute top-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-[#D9B38C] to-transparent opacity-40" />
 
                 {/* STARS */}
-                <div className="flex items-center gap-1 mb-6 text-[#997E67]">
+                <div className="flex items-center gap-1 mb-6 text-[#D9B38C]">
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <Star
                       key={i}
@@ -70,18 +72,18 @@ export function Testimonials() {
                 </div>
 
                 {/* QUOTE ICON */}
-                <Quote className="w-12 h-12 text-[#CCBEB1]/40 mb-5" />
+                <Quote className="w-12 h-12 text-white/10 mb-5" />
 
                 {/* TEXT */}
-                <p className="text-[#7A6757] leading-relaxed mb-10 text-base">
+                <p className="text-white/65 leading-[1.9] mb-10 text-base">
                   "{testimonial.quote}"
                 </p>
 
                 {/* USER */}
-                <div className="flex items-center gap-4 pt-6 border-t border-[#CCBEB1]/20">
+                <div className="flex items-center gap-4 pt-6 border-t border-white/10">
 
                   {/* IMAGE */}
-                  <div className="relative w-14 h-14 overflow-hidden rounded-full border-2 border-[#FFDBBB]">
+                  <div className="relative w-14 h-14 overflow-hidden rounded-full border border-[#D9B38C]/40">
 
                     <Image
                       src={testimonial.image}
@@ -93,19 +95,18 @@ export function Testimonials() {
 
                   {/* INFO */}
                   <div>
-                    <h4 className="text-[#664930] font-bold text-lg">
+                    <h4 className="text-white font-semibold text-lg">
                       {testimonial.name}
                     </h4>
 
-                    <p className="text-sm text-[#997E67]">
-                      {testimonial.role},{" "}
-                      {testimonial.company}
+                    <p className="text-sm text-[#D9B38C]/70">
+                      {testimonial.role}, {testimonial.company}
                     </p>
                   </div>
                 </div>
 
-                {/* HOVER LIGHT */}
-                <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-[radial-gradient(circle_at_top,rgba(255,219,187,0.12),transparent_60%)]" />
+                {/* HOVER GLOW */}
+                <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-[radial-gradient(circle_at_top,rgba(217,179,140,0.08),transparent_60%)]" />
               </div>
             </motion.div>
           ))}

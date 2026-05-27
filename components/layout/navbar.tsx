@@ -7,11 +7,11 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
-  { name: "Home", href: "#home" },
-  { name: "About", href: "#about" },
-  { name: "Products", href: "#products" },
-  { name: "Projects", href: "#projects" },
-  { name: "Contact", href: "#contact" },
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
+  { name: "Products", href: "/products" },
+  // { name: "Projects", href: "/projects" },
+  { name: "Contact", href: "/contact" },
 ];
 
 export function Navbar() {
@@ -39,14 +39,14 @@ export function Navbar() {
       )}
     >
       <div className="max-w-7xl mx-auto px-4 md:px-8">
-        
+
         {/* NAVBAR */}
         <div
           className={cn(
             "flex items-center justify-between rounded-full border px-6 md:px-8 transition-all duration-300",
             isScrolled
-              ? "bg-[#CCBEB1]/95 backdrop-blur-xl border-white/10 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.18)]"
-              : "bg-[#CCBEB1]/80 backdrop-blur-lg border-white/10 py-5"
+              ? "bg-[#0D0D0D]/90 backdrop-blur-2xl border-white/10 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.5)]"
+              : "bg-[#111111]/70 backdrop-blur-xl border-white/10 py-5"
           )}
         >
 
@@ -55,11 +55,11 @@ export function Navbar() {
             href="#home"
             className="flex items-center gap-3 group"
           >
-            <div className="w-11 h-11 rounded-full bg-white flex items-center justify-center shadow-md transition-all duration-300 group-hover:scale-105">
-              <Lightbulb className="w-5 h-5 text-[#2B2118] fill-[#2B2118]/10" />
+            <div className="w-11 h-11 rounded-full bg-[#D9B38C] flex items-center justify-center shadow-lg transition-all duration-300 group-hover:scale-105">
+              <Lightbulb className="w-5 h-5 text-black fill-black/10" />
             </div>
 
-            <span className="text-2xl font-black tracking-wide text-[#2B2118]">
+            <span className="text-2xl font-black tracking-wide text-white">
               Lumira
             </span>
           </Link>
@@ -72,11 +72,11 @@ export function Navbar() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="relative text-[15px] font-medium text-[#3D3128] hover:text-black transition-all duration-300 group"
+                    className="relative text-[15px] font-medium text-white/70 hover:text-white transition-all duration-300 group"
                   >
                     {link.name}
 
-                    <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-full" />
+                    <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#D9B38C] transition-all duration-300 group-hover:w-full" />
                   </Link>
                 </li>
               ))}
@@ -84,8 +84,8 @@ export function Navbar() {
 
             {/* BUTTON */}
             <Link
-              href="#contact"
-              className="px-6 py-3 rounded-full bg-[#2B2118] text-white text-sm font-semibold hover:bg-black transition-all duration-300 hover:scale-105"
+              href="/contact"
+              className="px-6 py-3 rounded-full bg-[#D9B38C] text-black text-sm font-semibold hover:bg-white transition-all duration-300 hover:scale-105"
             >
               Get Quote
             </Link>
@@ -95,7 +95,7 @@ export function Navbar() {
           {/* MOBILE MENU BUTTON */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-[#2B2118]"
+            className="md:hidden text-white"
           >
             {mobileMenuOpen ? (
               <X className="w-7 h-7" />
@@ -113,7 +113,7 @@ export function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.25 }}
-              className="md:hidden mt-4 overflow-hidden rounded-3xl border border-white/10 bg-[#CCBEB1]/95 backdrop-blur-xl"
+              className="md:hidden mt-4 overflow-hidden rounded-3xl border border-white/10 bg-[#0D0D0D]/95 backdrop-blur-2xl"
             >
               <ul className="flex flex-col p-6">
                 {NAV_LINKS.map((link) => (
@@ -121,7 +121,7 @@ export function Navbar() {
                     <Link
                       href={link.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="block py-4 text-lg font-medium text-[#3D3128] hover:text-black transition-colors border-b border-black/5"
+                      className="block py-4 text-lg font-medium text-white/75 hover:text-white transition-colors border-b border-white/5"
                     >
                       {link.name}
                     </Link>
@@ -130,9 +130,9 @@ export function Navbar() {
 
                 {/* MOBILE BUTTON */}
                 <Link
-                  href="#contact"
+                  href="/contact"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="mt-6 flex items-center justify-center rounded-full bg-[#2B2118] py-4 text-white font-semibold"
+                  className="mt-6 flex items-center justify-center rounded-full bg-[#D9B38C] py-4 text-black font-semibold"
                 >
                   Get Quote
                 </Link>

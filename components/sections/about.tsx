@@ -37,17 +37,14 @@ const stats = [
 
 export function About() {
   return (
-    <section
-      id="about"
-      className="relative overflow-hidden bg-[#FFDBBB] py-28"
-    >
+    <section id="about" className="relative overflow-hidden bg-[#050505] py-28">
       {/* BACKGROUND GLOW */}
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#7A5B42]/10 blur-[140px] rounded-full" />
+      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#D9B38C]/10 blur-[140px] rounded-full" />
 
       {/* BIG TYPOGRAPHY */}
       <div className="absolute right-[-100px] top-10 pointer-events-none select-none">
         <h1
-          className="text-[180px] md:text-[260px] font-black leading-none text-[#2B2118]/[0.04]"
+          className="text-[180px] md:text-[260px] font-black leading-none text-white/[0.03]"
           style={{ fontFamily: "serif" }}
         >
           LIGHT
@@ -64,7 +61,7 @@ export function About() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
               viewport={{ once: true }}
-              className="uppercase tracking-[0.35em] text-[#7A5B42] text-[11px] mb-6"
+              className="uppercase tracking-[0.35em] text-[#D9B38C] text-[11px] mb-6"
             >
               About Lumira Studio
             </motion.p>
@@ -74,12 +71,12 @@ export function About() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="text-5xl md:text-7xl lg:text-[92px] leading-[0.95] font-black text-[#2B2118]"
+              className="text-5xl md:text-7xl lg:text-[92px] leading-[0.95] font-black text-white"
               style={{ fontFamily: "serif" }}
             >
               Crafted
               <br />
-              <span className="italic font-normal text-[#7A5B42]">
+              <span className="italic font-normal text-[#D9B38C]">
                 with Light.
               </span>
             </motion.h2>
@@ -89,7 +86,7 @@ export function About() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.15 }}
               viewport={{ once: true }}
-              className="mt-10 max-w-2xl text-[#5C4B3D] text-lg leading-[1.9]"
+              className="mt-10 max-w-2xl text-white/70 text-lg leading-[1.9]"
             >
               We design immersive premium LED lighting experiences for luxury
               interiors, smart homes, hospitality spaces, and modern
@@ -98,21 +95,29 @@ export function About() {
             </motion.p>
 
             {/* CTA */}
+            {/* COMPANY DESCRIPTION */}
             <motion.div
               initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.25 }}
               viewport={{ once: true }}
-              className="flex flex-wrap gap-5 mt-12"
+              className="mt-12 max-w-2xl"
             >
-              <button className="group bg-[#2B2118] text-[#FFDBBB] px-8 py-4 rounded-full text-sm uppercase tracking-[0.18em] flex items-center gap-3 hover:bg-[#7A5B42] transition-all duration-300">
-                Explore Studio
-                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
-              </button>
+              <p className="text-white/70 text-lg leading-[1.9]">
+                At Merano Elite Trading LLC, we specialize in LED lighting
+                design, supply, and installation solutions for residential,
+                commercial, and large-scale projects. We also provide premium
+                furniture and customized interior solutions for villas, schools,
+                offices, retail, and hospitality spaces.
+              </p>
 
-              <button className="border border-[#2B2118]/20 text-[#2B2118] px-8 py-4 rounded-full text-sm uppercase tracking-[0.18em] hover:bg-[#2B2118] hover:text-[#FFDBBB] transition-all duration-300">
-                Contact Us
-              </button>
+              <p className="text-white/70 text-lg leading-[1.9] mt-6">
+                With a focus on quality, innovation, and modern design, we
+                deliver smart, stylish, and energy-efficient solutions that
+                transform spaces with elegance and functionality. From concept
+                to completion, our team is committed to excellence, reliability,
+                and customer satisfaction.
+              </p>
             </motion.div>
 
             {/* STATS */}
@@ -124,12 +129,13 @@ export function About() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.12 }}
                   viewport={{ once: true }}
-                  className="border border-[#2B2118]/10 bg-white/20 backdrop-blur-md rounded-3xl p-6"
+                  className="border border-white/10 bg-white/5 backdrop-blur-md rounded-3xl p-6"
                 >
-                  <h3 className="text-4xl font-black text-[#2B2118]">
+                  <h3 className="text-4xl font-black text-white">
                     {item.value}
                   </h3>
-                  <p className="mt-2 uppercase tracking-[0.2em] text-[11px] text-[#7A5B42]">
+
+                  <p className="mt-2 uppercase tracking-[0.2em] text-[11px] text-[#D9B38C]">
                     {item.label}
                   </p>
                 </motion.div>
@@ -157,7 +163,7 @@ export function About() {
               />
 
               {/* OVERLAY */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#2B2118]/60 via-[#2B2118]/10 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
               {/* FLOATING CARD */}
               <motion.div
@@ -196,14 +202,14 @@ export function About() {
               viewport={{ once: true }}
               className="absolute -left-10 top-10 hidden lg:block"
             >
-              <div className="bg-[#2B2118] text-[#FFDBBB] rounded-3xl p-7 w-[240px] shadow-2xl">
-                <p className="uppercase tracking-[0.3em] text-[10px] text-[#FFDBBB]/60 mb-3">
+              <div className="bg-[#111111] border border-white/10 text-white rounded-3xl p-7 w-[240px] shadow-2xl">
+                <p className="uppercase tracking-[0.3em] text-[10px] text-[#D9B38C]/70 mb-3">
                   Since
                 </p>
 
-                <h3 className="text-6xl font-black leading-none">2012</h3>
+                <h3 className="text-6xl font-black leading-none">2024</h3>
 
-                <p className="mt-4 text-sm text-[#FFDBBB]/70 leading-relaxed">
+                <p className="mt-4 text-sm text-white/60 leading-relaxed">
                   Delivering modern lighting experiences with innovation and
                   timeless elegance.
                 </p>
@@ -221,20 +227,20 @@ export function About() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
               viewport={{ once: true }}
-              className="group relative overflow-hidden rounded-[30px] border border-[#2B2118]/10 bg-white/30 backdrop-blur-lg p-8 hover:-translate-y-2 transition-all duration-500"
+              className="group relative overflow-hidden rounded-[30px] border border-white/10 bg-white/5 backdrop-blur-lg p-8 hover:-translate-y-2 transition-all duration-500"
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#7A5B42]/10 blur-3xl rounded-full" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[#D9B38C]/10 blur-3xl rounded-full" />
 
               <div className="relative z-10">
-                <div className="w-14 h-14 rounded-2xl bg-[#2B2118] flex items-center justify-center mb-8">
-                  <Icon className="text-[#FFDBBB] w-6 h-6" />
+                <div className="w-14 h-14 rounded-2xl bg-[#D9B38C] flex items-center justify-center mb-8">
+                  <Icon className="text-black w-6 h-6" />
                 </div>
 
-                <h3 className="text-[#2B2118] text-xl font-semibold leading-snug">
+                <h3 className="text-white text-xl font-semibold leading-snug">
                   {title}
                 </h3>
 
-                <p className="mt-4 text-[#5C4B3D] leading-relaxed text-sm">
+                <p className="mt-4 text-white/60 leading-relaxed text-sm">
                   Premium quality lighting systems engineered with luxury
                   aesthetics and smart performance.
                 </p>

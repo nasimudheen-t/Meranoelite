@@ -53,78 +53,48 @@ export function ProductsPreview() {
         </div>
 
         {/* PRODUCTS */}
-        <div className="grid gap-8 md:grid-cols-2">
+       {/* PRODUCTS */}
+<div className="grid gap-8 md:grid-cols-2">
+  {featuredProducts.map((product, index) => (
+    <motion.div
+      key={index}
+      initial={{ opacity: 0, y: 60 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{
+        duration: 0.7,
+        delay: index * 0.1,
+      }}
+    >
+      <Link
+        href="/products"
+        className="group block overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.03]"
+      >
+        {/* IMAGE REMOVED */}
 
-          {featuredProducts.map((product, index) => (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{
-                duration: 0.7,
-                delay: index * 0.1,
-              }}
-            >
+        <div className="space-y-6 p-8">
+          <h3 className="text-3xl font-black tracking-tight text-white">
+            Product
+          </h3>
 
-              {/* CARD LINK */}
-              <Link
-                href="/products"
-                className="group block overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.03]"
-              >
+          <p className="mt-3 text-base leading-relaxed text-white/50">
+            Product description
+          </p>
 
-                {/* IMAGE */}
-                <div className="relative aspect-[4/3] overflow-hidden">
+          <div className="flex items-center justify-between border-t border-white/10 pt-6">
+            <span className="text-2xl font-bold text-white">
+              ₹0
+            </span>
 
-                  {/* <Image
-                    src={product.image}
-                    alt={product.title}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  /> */}
-
-                  {/* OVERLAY */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-
-                  {/* CATEGORY */}
-                  <div className="absolute left-6 top-6">
-
-                    <span className="rounded-full border border-white/10 bg-black/50 px-4 py-2 text-xs font-medium uppercase tracking-[0.2em] text-white backdrop-blur-xl">
-                      {product.category}
-                    </span>
-                  </div>
-                </div>
-
-                {/* CONTENT */}
-                <div className="space-y-6 p-8">
-
-                  {/* TITLE */}
-                  <div>
-                    <h3 className="text-3xl font-black tracking-tight text-white">
-                      {product.title}
-                    </h3>
-
-                    <p className="mt-3 text-base leading-relaxed text-white/50">
-                      {product.description}
-                    </p>
-                  </div>
-
-                  {/* BOTTOM */}
-                  <div className="flex items-center justify-between border-t border-white/10 pt-6">
-
-                    <span className="text-2xl font-bold text-white">
-                      {product.price}
-                    </span>
-
-                    <span className="rounded-full bg-white px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-black transition-all duration-300 group-hover:bg-white/90">
-                      Explore
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
+            <span className="rounded-full bg-white px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-black">
+              Explore
+            </span>
+          </div>
         </div>
+      </Link>
+    </motion.div>
+  ))}
+</div>
 
         {/* MOBILE BUTTON */}
         <div className="mt-10 md:hidden">

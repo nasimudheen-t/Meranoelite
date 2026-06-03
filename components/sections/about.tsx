@@ -31,7 +31,7 @@ const features = [
 
 const stats = [
   { value: "500+", label: "Projects" },
-  { value: "12+", label: "Years" },
+  { value: "2+", label: "Years" },
   { value: "4.9★", label: "Rating" },
 ];
 
@@ -63,7 +63,7 @@ export function About() {
               viewport={{ once: true }}
               className="uppercase tracking-[0.35em] text-[#D9B38C] text-[11px] mb-6"
             >
-              About Lumira Studio
+              About Meranoelite
             </motion.p>
 
             <motion.h2

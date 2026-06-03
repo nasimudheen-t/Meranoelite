@@ -3,7 +3,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 
 export const metadata = {
-  title: "Contact Us | Lumira Studio",
+  title: "Contact Us | Meranoelite",
   description: "Get in touch with us for premium lighting solutions.",
 };
 

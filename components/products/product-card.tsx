@@ -2,16 +2,21 @@
 
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
-import { Product } from "@/data/products";
+import type { Product } from "@/types/product";
+import { API_URL } from "@/lib/api";
 
 interface ProductCardProps {
   product: Product;
   onClick?: (product: Product) => void;
 }
 
-export function ProductCard({ product, onClick }: ProductCardProps) {
+export function ProductCard({
+  product,
+  onClick,
+}: ProductCardProps) {
+  console.log(product.product_image);
   return (
-    <div 
+    <div
       className="group h-full flex flex-col cursor-pointer"
       onClick={() => onClick?.(product)}
     >
@@ -19,18 +24,16 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
         {/* IMAGE */}
         <div className="relative h-[340px] w-full overflow-hidden shrink-0">
           <Image
-            src={product.image}
-            alt={product.title}
+            src={`${API_URL}/${product.product_image}`}
+            alt={product.product_name}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover transition duration-700 group-hover:scale-105"
             loading="lazy"
           />
 
-          {/* OVERLAY */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
 
-          {/* CATEGORY PULL */}
           <div className="absolute top-5 left-5">
             <span className="rounded-full border border-white/10 bg-black/40 backdrop-blur-md px-4 py-2 text-[10px] uppercase tracking-[0.25em] text-white/80">
               {product.category}
@@ -40,15 +43,15 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
 
         {/* CONTENT */}
         <div className="p-7 flex flex-col flex-grow">
-          {/* TITLE + ICON */}
           <div className="flex items-start justify-between gap-4">
             <div>
               <h3 className="text-2xl font-bold text-white leading-tight">
-                {product.title}
+                {product.product_name}
               </h3>
 
               <p className="mt-3 text-sm leading-[1.8] text-white/50">
-                {product.short || "Premium modern lighting solution with elegant aesthetics."}
+                {product.product_description ||
+                  "Premium modern lighting solution with elegant aesthetics."}
               </p>
             </div>
 
@@ -59,12 +62,7 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
 
           <div className="flex-grow" />
 
-          {/* FOOTER */}
-          <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/10">
-            <p className="text-lg font-semibold text-white">
-              {product.price}
-            </p>
-
+          <div className="flex items-center justify-end mt-8 pt-6 border-t border-white/10">
             <button className="rounded-full bg-[#D9B38C] px-5 py-2 text-xs uppercase tracking-[0.18em] text-black font-semibold transition hover:bg-white">
               View
             </button>

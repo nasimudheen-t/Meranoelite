@@ -73,7 +73,7 @@ export function Contact() {
                   icon: MapPin,
                   title: "Visit Showroom",
                   content:
-                    "Lumira Lighting Studio\nDubai Design District",
+                    "Meranoelite Lighting Studio\nDubai Design District",
                 },
                 {
                   icon: Phone,

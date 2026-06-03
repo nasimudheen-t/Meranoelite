@@ -4,12 +4,13 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
-import { PRODUCTS } from "@/data/products";
+import type { Product as ProductType } from "@/types/product";
 
 export function ProductsPreview() {
 
   // SHOW ONLY 4 PRODUCTS
-  const featuredProducts = PRODUCTS.slice(0, 4);
+  // Product is a type, not a value. Use an empty list here or replace with real product data.
+  const featuredProducts: ProductType[] = [];
 
   return (
     <section

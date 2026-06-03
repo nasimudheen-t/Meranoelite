@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Lightbulb, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import Logo from "@/public/images/logo.jpeg";
+import Image from "next/image";
 
 const NAV_LINKS = [
   { name: "Home", href: "/" },
@@ -35,38 +37,38 @@ export function Navbar() {
       transition={{ duration: 0.5 }}
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled ? "py-4" : "py-6"
+        isScrolled ? "py-4" : "py-6",
       )}
     >
       <div className="max-w-7xl mx-auto px-4 md:px-8">
-
         {/* NAVBAR */}
         <div
           className={cn(
             "flex items-center justify-between rounded-full border px-6 md:px-8 transition-all duration-300",
             isScrolled
               ? "bg-[#0D0D0D]/90 backdrop-blur-2xl border-white/10 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.5)]"
-              : "bg-[#111111]/70 backdrop-blur-xl border-white/10 py-5"
+              : "bg-[#111111]/70 backdrop-blur-xl border-white/10 py-5",
           )}
         >
-
           {/* LOGO */}
-          <Link
-            href="#home"
-            className="flex items-center gap-3 group"
-          >
-            <div className="w-11 h-11 rounded-full bg-[#D9B38C] flex items-center justify-center shadow-lg transition-all duration-300 group-hover:scale-105">
-              <Lightbulb className="w-5 h-5 text-black fill-black/10" />
+          <Link href="#home" className="flex items-center gap-3 group">
+            <div className="w-11 h-11 rounded-full bg-[#D9B38C] flex items-center justify-center shadow-lg transition-all duration-300 group-hover:scale-105 overflow-hidden">
+              <Image
+                src={Logo}
+                alt="Logo"
+                width={44}
+                height={44}
+                className="object-cover w-full h-full"
+              />
             </div>
 
             <span className="text-2xl font-black tracking-wide text-white">
-              Lumira
+              Meranoelite
             </span>
           </Link>
 
           {/* DESKTOP MENU */}
           <div className="hidden md:flex items-center gap-10">
-
             <ul className="flex items-center gap-8">
               {NAV_LINKS.map((link) => (
                 <li key={link.name}>
@@ -89,7 +91,6 @@ export function Navbar() {
             >
               Get Quote
             </Link>
-
           </div>
 
           {/* MOBILE MENU BUTTON */}
@@ -140,7 +141,6 @@ export function Navbar() {
             </motion.div>
           )}
         </AnimatePresence>
-
       </div>
     </motion.nav>
   );

@@ -22,7 +22,7 @@ export function Footer() {
                 <Lightbulb className="w-5 h-5" />
               </div>
 
-              <h2 className="text-2xl font-semibold text-white">Lumira</h2>
+              <h2 className="text-2xl font-semibold text-white">Meranoelite</h2>
             </Link>
 
             <p className="text-sm leading-7 text-white/50 max-w-xs mb-5">
@@ -86,7 +86,7 @@ export function Footer() {
         {/* BOTTOM */}
         <div className="mt-10 pt-6 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-white/35">
-            © {new Date().getFullYear()} Lumira. All rights reserved.
+            © {new Date().getFullYear()} Meranoelite. All rights reserved.
           </p>
 
           <div className="flex items-center gap-6">

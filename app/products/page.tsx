@@ -3,7 +3,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 
 export const metadata = {
-  title: "Products | Lumira Studio",
+  title: "Products |Meranoelite",
   description: "Explore our premium collection of LED lighting.",
 };
 

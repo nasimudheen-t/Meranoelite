@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 import { ProductGrid } from "./product-grid";
 import { ProductHero } from "./product-hero";
@@ -8,7 +8,8 @@ import { ProductSidebar } from "./product-sidebar";
 import { ProductSearch } from "./product-search";
 import { ProductModal } from "./product-modal";
 
-import { PRODUCTS, CATEGORIES, Product } from "@/data/products";
+import type { Product } from "@/types/product";
+import { getProducts } from "@/lib/products";
 
 export function ProductsClient() {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -20,21 +21,47 @@ export function ProductsClient() {
   // PAGINATION
   const [currentPage, setCurrentPage] = useState(1);
 
+  const [products, setProducts] = useState([]);
   const productsPerPage = 15;
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/immutability
+    loadProducts();
+  }, []);
 
+  const loadProducts = async () => {
+    try {
+      const data = await getProducts();
+      console.log("check", data);
+      setProducts(data || []);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const categories = useMemo(() => {
+    return [
+      "All",
+      ...Array.from(new Set(products.map((product: any) => product.category))),
+    ];
+  }, [products]);
   // FILTER PRODUCTS
   const filteredProducts = useMemo(() => {
-    return PRODUCTS.filter((product) => {
+    return products.filter((product: any) => {
       const matchesCategory =
         activeCategory === "All" || product.category === activeCategory;
 
       const matchesSearch =
-        product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchQuery.toLowerCase());
+        !searchQuery ||
+        product.product_name
+          ?.toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        product.product_description
+          ?.toLowerCase()
+          .includes(searchQuery.toLowerCase());
 
       return matchesCategory && matchesSearch;
     });
-  }, [activeCategory, searchQuery]);
+  }, [products, activeCategory, searchQuery]);
 
   // TOTAL PAGES
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
@@ -88,7 +115,7 @@ export function ProductsClient() {
         <div className="flex flex-col gap-10 md:flex-row lg:gap-14">
           {/* SIDEBAR */}
           <ProductSidebar
-            categories={CATEGORIES}
+            categories={categories}
             activeCategory={activeCategory}
             onCategoryChange={(category) => {
               setActiveCategory(category);

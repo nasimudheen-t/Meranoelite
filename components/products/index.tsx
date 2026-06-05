@@ -7,7 +7,7 @@ import { ProductHero } from "./product-hero";
 import { ProductSidebar } from "./product-sidebar";
 import { ProductSearch } from "./product-search";
 import { ProductModal } from "./product-modal";
-
+import {ProductsLoading} from "./products-loading";
 import type { Product } from "@/types/product";
 import { getProducts } from "@/lib/products";
 
@@ -15,6 +15,7 @@ export function ProductsClient() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeSubcategory, setActiveSubcategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
@@ -28,16 +29,28 @@ export function ProductsClient() {
     loadProducts();
   }, []);
 
+  // const loadProducts = async () => {
+  //   try {
+  //     const data = await getProducts();
+  //     console.log("check", data);
+  //     setProducts(data || []);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
   const loadProducts = async () => {
     try {
+      setLoading(true);
+
       const data = await getProducts();
-      console.log("check", data);
+
       setProducts(data || []);
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
-
   const categories = useMemo(() => {
     return [
       "All",
@@ -113,6 +126,10 @@ export function ProductsClient() {
       behavior: "smooth",
     });
   };
+
+  if (loading) {
+    return <ProductsLoading />;
+  }
 
   return (
     <div className="min-h-screen bg-[#050505] pb-32">

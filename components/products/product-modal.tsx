@@ -53,10 +53,16 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
               {/* IMAGE */}
               <div className="w-full md:w-1/2 relative h-[300px] md:h-auto min-h-[400px] bg-white/5">
                 <Image
-                    src={`${API_URL}/${product.product_image}`}
+                  src={
+                    product.product_image.startsWith("http")
+                      ? product.product_image
+                      : `${API_URL}/${product.product_image}`
+                  }
                   alt={product.product_name}
                   fill
-                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover transition duration-700 group-hover:scale-105"
+                  loading="lazy"
                 />
 
                 <div className="absolute top-4 left-4">

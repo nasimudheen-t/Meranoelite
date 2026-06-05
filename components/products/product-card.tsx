@@ -10,10 +10,7 @@ interface ProductCardProps {
   onClick?: (product: Product) => void;
 }
 
-export function ProductCard({
-  product,
-  onClick,
-}: ProductCardProps) {
+export function ProductCard({ product, onClick }: ProductCardProps) {
   console.log(product.product_image);
   return (
     <div
@@ -23,8 +20,20 @@ export function ProductCard({
       <div className="overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.03] backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:border-[#D9B38C]/30 flex flex-col h-full">
         {/* IMAGE */}
         <div className="relative h-[340px] w-full overflow-hidden shrink-0">
-          <Image
+          {/* <Image
             src={`${API_URL}/${product.product_image}`}
+            alt={product.product_name}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover transition duration-700 group-hover:scale-105"
+            loading="lazy"
+          /> */}
+          <Image
+            src={
+              product.product_image.startsWith("http")
+                ? product.product_image
+                : `${API_URL}/${product.product_image}`
+            }
             alt={product.product_name}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

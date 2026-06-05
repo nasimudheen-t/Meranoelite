@@ -11,12 +11,13 @@ export default function ProductForm() {
 
   const [productName, setProductName] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState<File | null>(null);
+  const [images, setImages] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
   const [category, setCategory] = useState("");
   const [subcategory, setSubcategory] = useState("");
 
+  const ALLOWED_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
   useEffect(() => {
     const token = localStorage.getItem("token");
 
@@ -55,10 +56,10 @@ export default function ProductForm() {
       formData.append("product_description", description);
 
       formData.append("category", category);
-
-      if (image) {
-        formData.append("product_image", image);
-      }
+      formData.append("subcategory", subcategory);
+      images.forEach((file) => {
+        formData.append("product_images", file);
+      });
 
       const response = await fetch(`${API_URL}/api/products`, {
         method: "POST",
@@ -88,7 +89,8 @@ export default function ProductForm() {
       setProductName("");
       setDescription("");
       setCategory("");
-      setImage(null);
+      setSubcategory("");
+      setImages([]);
     } catch (error: any) {
       toast.error(error.message || "Failed to add product");
     } finally {
@@ -220,18 +222,54 @@ export default function ProductForm() {
                 />
               </svg>
 
-              <p className="text-zinc-300">Click to upload image</p>
+              <p className="text-zinc-300">Click to upload up to 3 images</p>
 
-              <p className="mt-1 text-xs text-zinc-500">PNG, JPG, WEBP</p>
+              <p className="mt-1 text-xs text-zinc-500">
+                JPG, JPEG, PNG, WEBP (Max 3 Images)
+              </p>
 
-              {image && (
-                <p className="mt-3 text-sm text-green-400">{image.name}</p>
+              {images.length > 0 && (
+                <div className="mt-3 space-y-1">
+                  {images.map((img, index) => (
+                    <p key={index} className="text-sm text-green-400">
+                      {img.name}
+                    </p>
+                  ))}
+                </div>
               )}
 
               <input
                 type="file"
-                accept="image/*"
-                onChange={(e) => setImage(e.target.files?.[0] || null)}
+                accept=".jpg,.jpeg,.png,.webp"
+                multiple
+                onChange={(e) => {
+                  const files = Array.from(e.target.files || []);
+
+                  if (files.length === 0) return;
+
+                  if (files.length > 3) {
+                    toast.error("Maximum 3 images allowed");
+                    e.target.value = "";
+                    setImages([]);
+                    return;
+                  }
+
+                  const invalidFile = files.find(
+                    (file) => !ALLOWED_TYPES.includes(file.type),
+                  );
+
+                  if (invalidFile) {
+                    toast.error(
+                      "Only JPG, JPEG, PNG and WEBP images are allowed",
+                    );
+
+                    e.target.value = "";
+                    setImages([]);
+                    return;
+                  }
+
+                  setImages(files);
+                }}
                 className="hidden"
                 required
               />

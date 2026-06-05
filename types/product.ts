@@ -1,9 +1,8 @@
 export interface Product {
   id: number;
   product_name: string;
-  product_description: string | null;
-  product_image: string;
+  product_description: string;
+  product_images: string[];
   category: string;
-  created_at?: string;
-  updated_at?: string;
+  subcategory: string;
 }

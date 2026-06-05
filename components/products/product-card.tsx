@@ -11,7 +11,8 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, onClick }: ProductCardProps) {
-  console.log(product.product_image);
+  console.log(product.product_images);
+  const firstImage = product.product_images?.[0];
   return (
     <div
       className="group h-full flex flex-col cursor-pointer"
@@ -28,12 +29,22 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
             className="object-cover transition duration-700 group-hover:scale-105"
             loading="lazy"
           /> */}
-          <Image
+
+          {/* <Image
             src={
-              product.product_image.startsWith("http")
-                ? product.product_image
-                : `${API_URL}/${product.product_image}`
+              firstImage.startsWith("http")
+                ? firstImage
+                : `${API_URL}/${firstImage}`
             }
+            alt={product.product_name}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover transition duration-700 group-hover:scale-105"
+            loading="lazy"
+          /> */}
+
+          <Image
+            src={firstImage ? firstImage : "/placeholder.jpg"}
             alt={product.product_name}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

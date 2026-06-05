@@ -10,7 +10,7 @@ interface Product {
   id: number;
   product_name: string;
   category: string;
-  product_image: string;
+  product_images: string[];
 }
 
 export default function ProductTable() {
@@ -127,11 +127,7 @@ export default function ProductTable() {
                   <td className="px-6 py-5">
                     <div className="flex items-center gap-4">
                       <Image
-                        src={
-                          product.product_image.startsWith("http")
-                            ? product.product_image
-                            : `${API_URL}/${product.product_image}`
-                        }
+                        src={product.product_images?.[0] || "/placeholder.jpg"}
                         alt={product.product_name}
                         width={56}
                         height={56}

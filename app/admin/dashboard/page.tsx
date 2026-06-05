@@ -12,7 +12,7 @@ interface Product {
   id: number;
   product_name: string;
   category: string;
-  product_image: string;
+  product_images: string[];
   created_at: string;
 }
 
@@ -183,39 +183,41 @@ export default function DashboardPage() {
               </thead>
 
               <tbody>
-                {products.slice(0, 5).map((product) => (
-                  <tr
-                    key={product.id}
-                    className="border-b border-white/5 transition hover:bg-white/5"
-                  >
-                    <td className="p-5">
-                      <Image
-                        src={
-                          product.product_image.startsWith("http")
-                            ? product.product_image
-                            : `${API_URL}/${product.product_image}`
-                        }
-                        alt={product.product_name}
-                        width={56}
-                        height={56}
-                        className="rounded-xl object-cover border border-white/10"
-                        loading="lazy"
-                      />
-                    </td>
+                {products.slice(0, 5).map((product) => {
+                  const firstImage = product.product_images?.[0];
 
-                    <td className="p-5 font-medium">{product.product_name}</td>
+                  return (
+                    <tr
+                      key={product.id}
+                      className="border-b border-white/5 transition hover:bg-white/5"
+                    >
+                      <td className="p-5">
+                        <Image
+                          src={firstImage || "/placeholder.jpg"}
+                          alt={product.product_name}
+                          width={56}
+                          height={56}
+                          className="rounded-xl object-cover border border-white/10"
+                          loading="lazy"
+                        />
+                      </td>
 
-                    <td className="p-5">
-                      <span className="rounded-full bg-white/10 px-3 py-1 text-sm">
-                        {product.category}
-                      </span>
-                    </td>
+                      <td className="p-5 font-medium">
+                        {product.product_name}
+                      </td>
 
-                    <td className="p-5 text-zinc-400">
-                      {new Date(product.created_at).toLocaleDateString()}
-                    </td>
-                  </tr>
-                ))}
+                      <td className="p-5">
+                        <span className="rounded-full bg-white/10 px-3 py-1 text-sm">
+                          {product.category}
+                        </span>
+                      </td>
+
+                      <td className="p-5 text-zinc-400">
+                        {new Date(product.created_at).toLocaleDateString()}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

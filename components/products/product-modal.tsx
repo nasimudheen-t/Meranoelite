@@ -3,6 +3,7 @@ import { X } from "lucide-react";
 import Image from "next/image";
 import type { Product } from "@/types/product";
 import { API_URL } from "@/lib/api";
+import { useState, useEffect } from "react";
 
 interface ProductModalProps {
   product: Product | null;
@@ -11,6 +12,14 @@ interface ProductModalProps {
 }
 
 export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
+  const [selectedImage, setSelectedImage] = useState("");
+
+  useEffect(() => {
+    if (product?.product_images?.length) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setSelectedImage(product.product_images[0]);
+    }
+  }, [product]);
   if (!product) return null;
 
   return (
@@ -51,24 +60,41 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
               </button>
 
               {/* IMAGE */}
-              <div className="w-full md:w-1/2 relative h-[300px] md:h-auto min-h-[400px] bg-white/5">
-                <Image
-                  src={
-                    product.product_image.startsWith("http")
-                      ? product.product_image
-                      : `${API_URL}/${product.product_image}`
-                  }
-                  alt={product.product_name}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover transition duration-700 group-hover:scale-105"
-                  loading="lazy"
-                />
+              <div className="w-full md:w-1/2 bg-white/5 p-4">
+                <div className="relative h-[450px] rounded-2xl overflow-hidden">
+                  <Image
+                    src={selectedImage}
+                    alt={product.product_name}
+                    fill
+                    className="object-cover"
+                  />
 
-                <div className="absolute top-4 left-4">
-                  <span className="px-3 py-1 bg-black/50 backdrop-blur-md border border-white/10 rounded-full text-xs uppercase tracking-wider text-[#D9B38C]">
-                    {product.category}
-                  </span>
+                  <div className="absolute top-4 left-4">
+                    <span className="px-3 py-1 bg-black/50 backdrop-blur-md border border-white/10 rounded-full text-xs uppercase tracking-wider text-[#D9B38C]">
+                      {product.category}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex gap-3 mt-4">
+                  {product.product_images?.map((image, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSelectedImage(image)}
+                      className={`relative h-20 w-20 overflow-hidden rounded-xl border-2 ${
+                        selectedImage === image
+                          ? "border-[#D9B38C]"
+                          : "border-white/10"
+                      }`}
+                    >
+                      <Image
+                        src={image}
+                        alt={`Image ${index + 1}`}
+                        fill
+                        className="object-cover"
+                      />
+                    </button>
+                  ))}
                 </div>
               </div>
 
@@ -82,9 +108,16 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
                   {product.product_description || "No description available"}
                 </p>
 
-                <button className="mt-auto w-full py-4 bg-[#D9B38C] text-black font-semibold rounded-xl hover:bg-[#c49b71] transition-colors">
-                  Inquire Now
-                </button>
+                <a
+                  href={`https://wa.me/919999999999?text=${encodeURIComponent(
+                    `Hi, I'm interested in ${product.product_name}`,
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-auto w-full py-4 bg-[#25D366] text-white font-semibold rounded-xl hover:opacity-90 transition-colors text-center bg-green-800"
+                >
+                  Inquire on WhatsApp
+                </a>
               </div>
             </motion.div>
           </motion.div>

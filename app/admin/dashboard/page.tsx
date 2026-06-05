@@ -6,6 +6,7 @@ import { toast } from "react-hot-toast";
 import Link from "next/link";
 import { Package, Layers3, PlusCircle, Eye, ArrowUpRight } from "lucide-react";
 import { API_URL } from "@/lib/api";
+import Image from "next/image";
 
 interface Product {
   id: number;
@@ -188,10 +189,17 @@ export default function DashboardPage() {
                     className="border-b border-white/5 transition hover:bg-white/5"
                   >
                     <td className="p-5">
-                      <img
-                        src={`${API_URL}/${product.product_image}`}
+                      <Image
+                        src={
+                          product.product_image.startsWith("http")
+                            ? product.product_image
+                            : `${API_URL}/${product.product_image}`
+                        }
                         alt={product.product_name}
-                        className="h-14 w-14 rounded-xl object-cover border border-white/10"
+                        width={56}
+                        height={56}
+                        className="rounded-xl object-cover border border-white/10"
+                        loading="lazy"
                       />
                     </td>
 

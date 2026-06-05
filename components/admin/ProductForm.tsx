@@ -4,16 +4,18 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { API_URL } from "@/lib/api";
+import { categories } from "@/app/admin/lib/data";
 
 export default function ProductForm() {
   const router = useRouter();
 
   const [productName, setProductName] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
+  const [category, setCategory] = useState("");
+  const [subcategory, setSubcategory] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -150,19 +152,53 @@ export default function ProductForm() {
           {/* Category */}
           <div>
             <label className="mb-2 block text-sm font-medium text-zinc-300">
-              Category
+              Main Category
             </label>
 
-            <input
-              type="text"
+            <select
               value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              placeholder="Enter category"
-              className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white placeholder:text-zinc-500 outline-none transition-all focus:border-white/30 focus:bg-black/50"
+              onChange={(e) => {
+                setCategory(e.target.value);
+                setSubcategory("");
+              }}
+              className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white"
               required
-            />
-          </div>
+            >
+              <option value="" className="text-black">
+                Select Category
+              </option>
 
+              {Object.keys(categories).map((cat) => (
+                <option key={cat} value={cat} className="text-black">
+                  {cat}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="mb-2 block text-sm font-medium text-zinc-300">
+              Sub Category
+            </label>
+
+            <select
+              value={subcategory}
+              onChange={(e) => setSubcategory(e.target.value)}
+              disabled={!category}
+              className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white disabled:opacity-50"
+              required
+            >
+              <option value="" className="text-black">
+                Select Sub Category
+              </option>
+
+              {category &&
+                categories[category as keyof typeof categories]?.map((sub) => (
+                  <option key={sub} value={sub} className="text-black">
+                    {sub}
+                  </option>
+                ))}
+            </select>
+          </div>
           {/* Upload */}
           <div>
             <label className="mb-2 block text-sm font-medium text-zinc-300">

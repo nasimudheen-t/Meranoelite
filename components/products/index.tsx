@@ -13,7 +13,7 @@ import { getProducts } from "@/lib/products";
 
 export function ProductsClient() {
   const [activeCategory, setActiveCategory] = useState("All");
-
+  const [activeSubcategory, setActiveSubcategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -50,6 +50,10 @@ export function ProductsClient() {
       const matchesCategory =
         activeCategory === "All" || product.category === activeCategory;
 
+      const matchesSubcategory =
+        activeSubcategory === "All" ||
+        product.subcategory?.trim() === activeSubcategory.trim();
+
       const matchesSearch =
         !searchQuery ||
         product.product_name
@@ -59,10 +63,34 @@ export function ProductsClient() {
           ?.toLowerCase()
           .includes(searchQuery.toLowerCase());
 
-      return matchesCategory && matchesSearch;
-    });
-  }, [products, activeCategory, searchQuery]);
+      console.log(
+        "hey",
+        product.product_name,
+        product.subcategory,
+        activeSubcategory,
+      );
 
+      return matchesCategory && matchesSubcategory && matchesSearch;
+    });
+  }, [products, activeCategory, activeSubcategory, searchQuery]);
+
+  const subcategories = useMemo(() => {
+    if (activeCategory === "All") {
+      return ["All"];
+    }
+
+    return [
+      "All",
+      ...Array.from(
+        new Set(
+          products
+            .filter((product: any) => product.category === activeCategory)
+            .map((product: any) => product.subcategory)
+            .filter(Boolean),
+        ),
+      ),
+    ];
+  }, [products, activeCategory]);
   // TOTAL PAGES
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
@@ -116,9 +144,17 @@ export function ProductsClient() {
           {/* SIDEBAR */}
           <ProductSidebar
             categories={categories}
+            subcategories={subcategories}
             activeCategory={activeCategory}
+            activeSubcategory={activeSubcategory}
             onCategoryChange={(category) => {
               setActiveCategory(category);
+              setActiveSubcategory("All");
+              setCurrentPage(1);
+            }}
+            onSubcategoryChange={(subcategory) => {
+              console.log("clicked", subcategory);
+              setActiveSubcategory(subcategory);
               setCurrentPage(1);
             }}
           />

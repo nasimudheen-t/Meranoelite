@@ -159,61 +159,70 @@ export function ProductsClient() {
         {/* CONTENT */}
         <div className="space-y-8">
           {/* MAIN CATEGORIES */}
-          <div className="flex flex-wrap gap-3 border-b border-white/10 pb-6">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => {
-                  setActiveCategory(category);
-                  setActiveSubcategory("All");
-                  setCurrentPage(1);
-                }}
-                className={`rounded-full px-5 py-2 text-sm font-medium transition-all
-          ${
-            activeCategory === category
-              ? "bg-[#D4B08A] text-black"
-              : "border border-white/10 bg-white/5 text-white hover:bg-white/10"
-          }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
+          <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#0d0d0d]">
+            <div className="border-b border-white/10 px-6 py-4">
+              <p className="text-xs uppercase tracking-[0.3em] text-[#D4B08A]">
+                Product Categories
+              </p>
+            </div>
 
-          {/* SUBCATEGORIES */}
-          {activeCategory !== "All" && subcategories.length > 1 && (
-            <div className="mb-10">
-              <div className="mb-4">
-                <p className="text-xs uppercase tracking-[0.3em] text-[#D4B08A]">
-                  Related Subcategories
-                </p>
-
-                <h3 className="mt-2 text-xl font-semibold text-white">
-                  {activeCategory}
-                </h3>
-              </div>
-
-              <div className="flex flex-wrap gap-3">
-                {subcategories.map((subcategory) => (
+            {categories
+              .filter((category) => category !== "All")
+              .map((category) => (
+                <div key={category}>
                   <button
-                    key={subcategory}
                     onClick={() => {
-                      setActiveSubcategory(subcategory);
+                      setActiveCategory(category);
+                      setActiveSubcategory("All");
                       setCurrentPage(1);
                     }}
-                    className={`rounded-full px-4 py-2 text-sm transition-all
+                    className={`flex w-full items-center justify-between border-b border-white/5 px-6 py-5 text-left transition-all
             ${
-              activeSubcategory === subcategory
-                ? "bg-white text-black"
-                : "border border-white/10 bg-white/5 text-white hover:bg-white/10"
+              activeCategory === category
+                ? "bg-[#D4B08A]/10 text-[#D4B08A]"
+                : "text-white hover:bg-white/5"
             }`}
                   >
-                    {subcategory}
+                    <span>{category}</span>
+                    <span>{activeCategory === category ? "−" : "+"}</span>
                   </button>
-                ))}
-              </div>
-            </div>
-          )}
+
+                  {/* SUBCATEGORIES INSIDE CATEGORY */}
+                  {activeCategory === category && subcategories.length > 1 && (
+                    <div className="border-t border-[#D4B08A]/10 bg-gradient-to-r from-[#111111] to-[#0b0b0b] px-6 py-5">
+                      <div className="mb-4 flex items-center gap-3">
+                        <div className="h-px w-8 bg-[#D4B08A]" />
+                        <span className="text-[11px] uppercase tracking-[0.3em] text-[#D4B08A]">
+                          Subcategories
+                        </span>
+                      </div>
+
+                      <div className="flex flex-wrap gap-3">
+                        {subcategories
+                          .filter((sub) => sub !== "All")
+                          .map((subcategory) => (
+                            <button
+                              key={subcategory}
+                              onClick={() => {
+                                setActiveSubcategory(subcategory);
+                                setCurrentPage(1);
+                              }}
+                              className={`rounded-full border px-5 py-2.5 text-sm font-medium transition-all duration-300
+              ${
+                activeSubcategory === subcategory
+                  ? "border-[#D4B08A] bg-[#D4B08A] text-black shadow-lg shadow-[#D4B08A]/20"
+                  : "border-white/10 bg-white/[0.03] text-white hover:border-[#D4B08A]/40 hover:text-[#D4B08A]"
+              }`}
+                            >
+                              {subcategory}
+                            </button>
+                          ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+          </div>
 
           {/* PRODUCTS */}
           <ProductGrid

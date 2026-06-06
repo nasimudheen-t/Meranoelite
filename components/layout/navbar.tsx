@@ -51,22 +51,32 @@ export function Navbar() {
           )}
         >
           {/* LOGO */}
-          <Link href="#home" className="flex items-center gap-3 group">
-            <div className="w-11 h-11 rounded-full bg-[#D9B38C] flex items-center justify-center shadow-lg transition-all duration-300 group-hover:scale-105 overflow-hidden">
+
+          <Link
+            href="/"
+            className="flex items-center gap-4 transition-all duration-300"
+          >
+            <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-xl bg-[#D9B38C]/10 border border-[#D9B38C]/20">
               <Image
                 src={Logo}
-                alt="Logo"
-                width={44}
-                height={44}
-                className="object-cover w-full h-full"
+                alt="Meranoelite Logo"
+                width={56}
+                height={56}
+                className="h-full w-full object-contain p-1"
+                priority
               />
             </div>
 
-            <span className="text-2xl font-black tracking-wide text-white">
-              Meranoelite
-            </span>
-          </Link>
+            <div className="flex flex-col">
+              <span className="text-2xl font-bold tracking-wide text-white">
+                Meranoelite
+              </span>
 
+              <span className="text-[10px] uppercase tracking-[0.3em] text-[#D9B38C]">
+                Premium Lighting
+              </span>
+            </div>
+          </Link>
           {/* DESKTOP MENU */}
           <div className="hidden md:flex items-center gap-10">
             <ul className="flex items-center gap-8">

@@ -19,25 +19,15 @@ export function ProductsClient() {
 
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  // PAGINATION
   const [currentPage, setCurrentPage] = useState(1);
 
   const [products, setProducts] = useState([]);
   const productsPerPage = 15;
+
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/immutability
     loadProducts();
   }, []);
 
-  // const loadProducts = async () => {
-  //   try {
-  //     const data = await getProducts();
-  //     console.log("check", data);
-  //     setProducts(data || []);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
   const loadProducts = async () => {
     try {
       setLoading(true);
@@ -51,13 +41,14 @@ export function ProductsClient() {
       setLoading(false);
     }
   };
+
   const categories = useMemo(() => {
     return [
       "All",
       ...Array.from(new Set(products.map((product: any) => product.category))),
     ];
   }, [products]);
-  // FILTER PRODUCTS
+
   const filteredProducts = useMemo(() => {
     return products.filter((product: any) => {
       const matchesCategory =
@@ -75,13 +66,6 @@ export function ProductsClient() {
         product.product_description
           ?.toLowerCase()
           .includes(searchQuery.toLowerCase());
-
-      console.log(
-        "hey",
-        product.product_name,
-        product.subcategory,
-        activeSubcategory,
-      );
 
       return matchesCategory && matchesSubcategory && matchesSearch;
     });
@@ -104,10 +88,9 @@ export function ProductsClient() {
       ),
     ];
   }, [products, activeCategory]);
-  // TOTAL PAGES
+
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
-  // CURRENT PRODUCTS
   const paginatedProducts = useMemo(() => {
     const startIndex = (currentPage - 1) * productsPerPage;
 
@@ -116,11 +99,9 @@ export function ProductsClient() {
     return filteredProducts.slice(startIndex, endIndex);
   }, [filteredProducts, currentPage]);
 
-  // CHANGE PAGE
   const goToPage = (page: number) => {
     setCurrentPage(page);
 
-    // SCROLL TO TOP
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -133,32 +114,34 @@ export function ProductsClient() {
 
   return (
     <div className="min-h-screen bg-[#050505] pb-32">
-      <ProductHero />
-
-      <div className="relative z-10 mx-auto mt-10 max-w-[1450px] px-6 md:px-10">
+      <div className="relative z-10 mx-auto mt-32 max-w-[1450px] px-6 md:px-10">
         {/* TOP BAR */}
-        <div className="mb-12 flex flex-col items-center justify-between gap-6 border-b border-white/10 pb-8 md:flex-row">
-          <ProductSearch
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-          />
-
-          <div className="text-white/60">
-            Showing{" "}
-            <span className="font-semibold text-white">
-              {paginatedProducts.length}
-            </span>{" "}
-            of{" "}
-            <span className="font-semibold text-white">
-              {filteredProducts.length}
-            </span>{" "}
-            products
-          </div>
-        </div>
-
-        {/* CONTENT */}
+        {/* SEARCH BAR */}
         <div className="space-y-8">
-          {/* MAIN CATEGORIES */}
+          {/* SEARCH BAR */}
+          <div className="rounded-3xl border border-white/10 bg-[#0d0d0d] p-5">
+            <ProductSearch
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+            />
+          </div>
+
+          {/* PRODUCT COUNT */}
+          <div className="flex justify-end border-b border-white/10 pb-6">
+            <div className="text-white/60">
+              Showing{" "}
+              <span className="font-semibold text-white">
+                {paginatedProducts.length}
+              </span>{" "}
+              of{" "}
+              <span className="font-semibold text-white">
+                {filteredProducts.length}
+              </span>{" "}
+              products
+            </div>
+          </div>
+
+          {/* CATEGORIES */}
           <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#0d0d0d]">
             <div className="border-b border-white/10 px-6 py-4">
               <p className="text-xs uppercase tracking-[0.3em] text-[#D4B08A]">
@@ -176,53 +159,70 @@ export function ProductsClient() {
                       setActiveSubcategory("All");
                       setCurrentPage(1);
                     }}
-                    className={`flex w-full items-center justify-between border-b border-white/5 px-6 py-5 text-left transition-all
-            ${
-              activeCategory === category
-                ? "bg-[#D4B08A]/10 text-[#D4B08A]"
-                : "text-white hover:bg-white/5"
-            }`}
+                    className={`flex w-full items-center justify-between border-b border-white/5 px-6 py-5 text-left transition-all duration-300
+                    ${
+                      activeCategory === category
+                        ? "bg-[#D4B08A]/10 text-[#D4B08A]"
+                        : "text-white hover:bg-white/5"
+                    }`}
                   >
                     <span>{category}</span>
-                    <span>{activeCategory === category ? "−" : "+"}</span>
+
+                    <svg
+                      className={`h-4 w-4 transition-transform duration-300 ${
+                        activeCategory === category
+                          ? "rotate-45 text-[#D4B08A]"
+                          : "text-white/70"
+                      }`}
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <path
+                        d="M12 5V19M5 12H19"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                      />
+                    </svg>
                   </button>
-
-                  {/* SUBCATEGORIES INSIDE CATEGORY */}
-                  {activeCategory === category && subcategories.length > 1 && (
-                    <div className="border-t border-[#D4B08A]/10 bg-gradient-to-r from-[#111111] to-[#0b0b0b] px-6 py-5">
-                      <div className="mb-4 flex items-center gap-3">
-                        <div className="h-px w-8 bg-[#D4B08A]" />
-                        <span className="text-[11px] uppercase tracking-[0.3em] text-[#D4B08A]">
-                          Subcategories
-                        </span>
-                      </div>
-
-                      <div className="flex flex-wrap gap-3">
-                        {subcategories
-                          .filter((sub) => sub !== "All")
-                          .map((subcategory) => (
-                            <button
-                              key={subcategory}
-                              onClick={() => {
-                                setActiveSubcategory(subcategory);
-                                setCurrentPage(1);
-                              }}
-                              className={`rounded-full border px-5 py-2.5 text-sm font-medium transition-all duration-300
-              ${
-                activeSubcategory === subcategory
-                  ? "border-[#D4B08A] bg-[#D4B08A] text-black shadow-lg shadow-[#D4B08A]/20"
-                  : "border-white/10 bg-white/[0.03] text-white hover:border-[#D4B08A]/40 hover:text-[#D4B08A]"
-              }`}
-                            >
-                              {subcategory}
-                            </button>
-                          ))}
-                      </div>
-                    </div>
-                  )}
                 </div>
               ))}
           </div>
+
+          {/* SUBCATEGORIES ABOVE PRODUCTS */}
+          {activeCategory !== "All" && subcategories.length > 1 && (
+            <div className="rounded-3xl border border-white/10 bg-[#0d0d0d] p-6">
+              <div className="mb-4 flex items-center gap-3">
+                <div className="h-px w-8 bg-[#D4B08A]" />
+
+                <span className="text-[11px] uppercase tracking-[0.3em] text-[#D4B08A]">
+                  {activeCategory}
+                </span>
+              </div>
+
+              <div className="flex flex-wrap gap-3">
+                {subcategories
+                  .filter((sub) => sub !== "All")
+                  .map((subcategory) => (
+                    <button
+                      key={subcategory}
+                      onClick={() => {
+                        setActiveSubcategory(subcategory);
+                        setCurrentPage(1);
+                      }}
+                      className={`rounded-full border px-5 py-2.5 text-sm font-medium transition-all duration-300
+                      ${
+                        activeSubcategory === subcategory
+                          ? "border-[#D4B08A] bg-[#D4B08A] text-black shadow-lg shadow-[#D4B08A]/20"
+                          : "border-white/10 bg-white/[0.03] text-white hover:border-[#D4B08A]/40 hover:text-[#D4B08A]"
+                      }`}
+                    >
+                      {subcategory}
+                    </button>
+                  ))}
+              </div>
+            </div>
+          )}
 
           {/* PRODUCTS */}
           <ProductGrid
@@ -240,11 +240,11 @@ export function ProductsClient() {
                   key={page}
                   onClick={() => goToPage(page)}
                   className={`h-12 min-w-[48px] rounded-full border text-sm font-semibold transition-all duration-300
-            ${
-              currentPage === page
-                ? "border-white bg-white text-black"
-                : "border-white/10 bg-white/5 text-white hover:bg-white hover:text-black"
-            }`}
+                  ${
+                    currentPage === page
+                      ? "border-white bg-white text-black"
+                      : "border-white/10 bg-white/5 text-white hover:bg-white hover:text-black"
+                  }`}
                 >
                   {page}
                 </button>
@@ -254,7 +254,6 @@ export function ProductsClient() {
         </div>
       </div>
 
-      {/* MODAL */}
       <ProductModal
         product={selectedProduct}
         isOpen={!!selectedProduct}

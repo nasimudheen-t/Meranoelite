@@ -21,7 +21,7 @@ export function ProductsClient() {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const productsPerPage = 15;
 
   useEffect(() => {

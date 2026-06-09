@@ -142,55 +142,94 @@ export function ProductsClient() {
           </div>
 
           {/* CATEGORIES */}
-          <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#0d0d0d]">
-            <div className="border-b border-white/10 px-6 py-4">
-              <p className="text-xs uppercase tracking-[0.3em] text-[#D4B08A]">
-                Product Categories
-              </p>
-            </div>
+    <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#0d0d0d]">
+  <div className="border-b border-white/10 px-6 py-4">
+    <p className="text-xs uppercase tracking-[0.3em] text-[#D4B08A]">
+      Product Categories
+    </p>
+  </div>
 
-            {categories
-              .filter((category) => category !== "All")
-              .map((category) => (
-                <div key={category}>
+  {categories
+    .filter((category) => category !== "All")
+    .map((category) => {
+      const categorySubcategories = [
+        ...new Set(
+          products
+            .filter((product) => product.category === category)
+            .map((product) => product.subcategory)
+            .filter(Boolean)
+        ),
+      ];
+
+      return (
+        <div key={category}>
+          {/* Main Category */}
+          <button
+            onClick={() => {
+              setActiveCategory(
+                activeCategory === category ? "All" : category
+              );
+              setActiveSubcategory("All");
+              setCurrentPage(1);
+            }}
+            className={`flex w-full items-center justify-between border-b border-white/5 px-6 py-5 text-left transition-all duration-300
+            ${
+              activeCategory === category
+                ? "bg-[#D4B08A]/10 text-[#D4B08A]"
+                : "text-white hover:bg-white/5"
+            }`}
+          >
+            <span>{category}</span>
+
+            <svg
+              className={`h-4 w-4 transition-transform duration-300 ${
+                activeCategory === category
+                  ? "rotate-45 text-[#D4B08A]"
+                  : "text-white/70"
+              }`}
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M12 5V19M5 12H19"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </svg>
+          </button>
+
+          {/* Subcategories */}
+          {activeCategory === category && (
+            <div className="border-b border-white/5 bg-black/30 px-6 py-4">
+              <div className="flex flex-wrap gap-3">
+                {categorySubcategories.map((subcategory) => (
                   <button
+                    key={subcategory}
                     onClick={() => {
-                      setActiveCategory(category);
-                      setActiveSubcategory("All");
+                      setActiveSubcategory(subcategory);
                       setCurrentPage(1);
                     }}
-                    className={`flex w-full items-center justify-between border-b border-white/5 px-6 py-5 text-left transition-all duration-300
+                    className={`rounded-full border px-4 py-2 text-sm transition-all
                     ${
-                      activeCategory === category
-                        ? "bg-[#D4B08A]/10 text-[#D4B08A]"
-                        : "text-white hover:bg-white/5"
+                      activeSubcategory === subcategory
+                        ? "border-[#D4B08A] bg-[#D4B08A] text-black"
+                        : "border-white/10 text-white hover:border-[#D4B08A] hover:text-[#D4B08A]"
                     }`}
                   >
-                    <span>{category}</span>
-
-                    <svg
-                      className={`h-4 w-4 transition-transform duration-300 ${
-                        activeCategory === category
-                          ? "rotate-45 text-[#D4B08A]"
-                          : "text-white/70"
-                      }`}
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <path
-                        d="M12 5V19M5 12H19"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                      />
-                    </svg>
+                    {subcategory}
                   </button>
-                </div>
-              ))}
-          </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    })}
+</div>
 
           {/* SUBCATEGORIES ABOVE PRODUCTS */}
-          {activeCategory !== "All" && subcategories.length > 1 && (
+          {/* {activeCategory !== "All" && subcategories.length > 1 && (
             <div className="rounded-3xl border border-white/10 bg-[#0d0d0d] p-6">
               <div className="mb-4 flex items-center gap-3">
                 <div className="h-px w-8 bg-[#D4B08A]" />
@@ -222,7 +261,7 @@ export function ProductsClient() {
                   ))}
               </div>
             </div>
-          )}
+          )} */}
 
           {/* PRODUCTS */}
           <ProductGrid

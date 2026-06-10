@@ -109,7 +109,7 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
                 </p>
 
                 <a
-                  href={`https://wa.me/919999999999?text=${encodeURIComponent(
+                  href={`https://wa.me/971507055644?text=${encodeURIComponent(
                     `Hi, I'm interested in ${product.product_name}`,
                   )}`}
                   target="_blank"

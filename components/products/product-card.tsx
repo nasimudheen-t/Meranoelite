@@ -20,7 +20,7 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
     >
       <div className="overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.03] backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:border-[#D9B38C]/30 flex flex-col h-full">
         {/* IMAGE */}
-        <div className="relative h-[340px] w-full overflow-hidden shrink-0">
+        <div className="relative h-[260px] w-full overflow-hidden shrink-0">
           {/* <Image
             src={`${API_URL}/${product.product_image}`}
             alt={product.product_name}
@@ -65,14 +65,9 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
         <div className="p-7 flex flex-col flex-grow">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h3 className="text-2xl font-bold text-white leading-tight">
+              <h3 className="text-lg font-semibold text-white leading-tight line-clamp-2 min-h-[56px]">
                 {product.product_name}
               </h3>
-
-              <p className="mt-3 text-sm leading-[1.8] text-white/50">
-                {product.product_description ||
-                  "Premium modern lighting solution with elegant aesthetics."}
-              </p>
             </div>
 
             <div className="w-11 h-11 rounded-full border border-white/10 bg-white/5 flex items-center justify-center shrink-0">

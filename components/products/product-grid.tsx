@@ -9,10 +9,7 @@ interface ProductGridProps {
   onProductClick?: (product: Product) => void;
 }
 
-export function ProductGrid({
-  products,
-  onProductClick,
-}: ProductGridProps) {
+export function ProductGrid({ products, onProductClick }: ProductGridProps) {
   if (products.length === 0) {
     return (
       <div className="py-20 text-center">
@@ -26,7 +23,8 @@ export function ProductGrid({
   console.log("products", products);
 
   return (
-    <div className="grid w-full gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="grid w-full gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
+      {" "}
       {products.map((product, index) => (
         <motion.div
           key={product.id}
@@ -40,10 +38,7 @@ export function ProductGrid({
             margin: "-50px",
           }}
         >
-          <ProductCard
-            product={product}
-            onClick={onProductClick}
-          />
+          <ProductCard product={product} onClick={onProductClick} />
         </motion.div>
       ))}
     </div>

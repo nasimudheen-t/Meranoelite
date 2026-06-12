@@ -67,13 +67,13 @@ export function Navbar() {
               />
             </div>
 
-            <div className="flex flex-col">
-              <span className="text-2xl font-bold tracking-wide text-white">
+            <div className="flex flex-col leading-none">
+              <span className="text-2xl font-bold tracking-[0.08em] text-white">
                 Meranoelite
               </span>
 
-              <span className="text-[10px] uppercase tracking-[0.3em] text-[#D9B38C]">
-                Premium Lighting
+              <span className="mt-2 text-[10px] uppercase tracking-[0.4em] text-[#D9B38C]">
+                Elegant Lighting • Stylish Furniture
               </span>
             </div>
           </Link>

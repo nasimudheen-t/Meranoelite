@@ -12,20 +12,20 @@ import {
 
 const features = [
   {
-    title: "Luxury Interior Lighting",
+    title: "Furniture Solutions",
     icon: Sparkles,
   },
   {
-    title: "Energy Efficient Systems",
-    icon: Zap,
-  },
-  {
-    title: "Smart Automation",
+    title: "Interior Concepts",
     icon: Layers3,
   },
   {
-    title: "Architectural Installations",
+    title: "Turnkey Projects",
     icon: ShieldCheck,
+  },
+  {
+    title: "Premium Lighting",
+    icon: Zap,
   },
 ];
 
@@ -96,28 +96,59 @@ export function About() {
 
             {/* CTA */}
             {/* COMPANY DESCRIPTION */}
+            {/* COMPANY DESCRIPTION */}
             <motion.div
               initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.25 }}
               viewport={{ once: true }}
-              className="mt-12 max-w-2xl"
+              className="mt-12 max-w-2xl space-y-8"
             >
-              <p className="text-white/70 text-lg leading-[1.9]">
-                At Merano Elite Trading LLC, we specialize in LED lighting
-                design, supply, and installation solutions for residential,
-                commercial, and large-scale projects. We also provide premium
-                furniture and customized interior solutions for villas, schools,
-                offices, retail, and hospitality spaces.
-              </p>
+              <div>
+                <h3 className="text-[#D9B38C] text-2xl font-semibold mb-3">
+                  Furniture Solutions
+                </h3>
 
-              <p className="text-white/70 text-lg leading-[1.9] mt-6">
-                With a focus on quality, innovation, and modern design, we
-                deliver smart, stylish, and energy-efficient solutions that
-                transform spaces with elegance and functionality. From concept
-                to completion, our team is committed to excellence, reliability,
-                and customer satisfaction.
-              </p>
+                <p className="text-white/70 text-lg leading-[1.9]">
+                  We provide premium furniture solutions tailored for
+                  residential, commercial, hospitality, educational, and
+                  corporate environments. From elegant living spaces and luxury
+                  villas to offices, schools, hotels, and retail outlets, our
+                  carefully selected furniture collections combine
+                  functionality, durability, and modern design to create
+                  inspiring interiors.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-[#D9B38C] text-2xl font-semibold mb-3">
+                  Interior Concepts
+                </h3>
+
+                <p className="text-white/70 text-lg leading-[1.9]">
+                  Our interior design team develops creative concepts that
+                  transform spaces into sophisticated and practical
+                  environments. We focus on space planning, material selection,
+                  lighting integration, color harmony, and customized design
+                  elements that reflect each client's vision while maintaining
+                  timeless elegance and contemporary style.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-[#D9B38C] text-2xl font-semibold mb-3">
+                  Turnkey Project Execution
+                </h3>
+
+                <p className="text-white/70 text-lg leading-[1.9]">
+                  We offer complete turnkey project execution, managing every
+                  stage from concept development and design to procurement,
+                  installation, and final handover. Our integrated approach
+                  ensures seamless coordination, consistent quality, timely
+                  delivery, and exceptional results for residential, commercial,
+                  and large-scale projects.
+                </p>
+              </div>
             </motion.div>
 
             {/* STATS */}

@@ -1,12 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  Mail,
-  MapPin,
-  Phone,
-  ArrowUpRight,
-} from "lucide-react";
+import { Mail, MapPin, Phone, ArrowUpRight } from "lucide-react";
 
 export function Contact() {
   return (
@@ -30,10 +25,8 @@ export function Contact() {
       </div>
 
       <div className="relative z-10 max-w-[1450px] mx-auto px-6 md:px-10">
-        
         {/* TOP SECTION */}
         <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-14 items-center">
-
           {/* LEFT CONTENT */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -53,7 +46,6 @@ export function Contact() {
             >
               Let’s Build
               <br />
-
               <span className="italic font-normal text-[#D9B38C]">
                 Brighter Spaces
               </span>
@@ -61,9 +53,9 @@ export function Contact() {
 
             {/* DESCRIPTION */}
             <p className="mt-10 max-w-xl text-white/60 text-lg leading-[1.9]">
-              Connect with our premium lighting experts for smart LED
-              solutions crafted for luxury homes, hospitality spaces,
-              and modern architectural interiors.
+              Connect with our premium lighting experts for smart LED solutions
+              crafted for luxury homes, hospitality spaces, and modern
+              architectural interiors.
             </p>
 
             {/* CONTACT INFO */}
@@ -72,20 +64,24 @@ export function Contact() {
                 {
                   icon: MapPin,
                   title: "Visit Showroom",
-                  content:
-                    "Meranoelite Lighting Studio\nDubai Design District",
+                  content: "Meranoelite Lighting Studio\nDubai Design District",
                 },
                 {
                   icon: Phone,
                   title: "Phone Number",
-                  content:
-                    "+971 4 123 4567\nMon - Sat / 9AM - 7PM",
+                  content: "+971507055644",
                 },
                 {
                   icon: Mail,
                   title: "Email Address",
-                  content:
-                    "hello@lumira.com\nsupport@lumira.com",
+                  emails: [
+                    "sulaiman@meranoelite.com",
+                    "navas@meranoelite.com",
+                    "sales@meranoelite.com",
+                    "sinfo@meranoelite.com",
+                    "accounts@meranoelite.com",
+                    "purchase@meranoelite.com",
+                  ],
                 },
               ].map((item, i) => {
                 const Icon = item.icon;
@@ -110,9 +106,23 @@ export function Contact() {
                         {item.title}
                       </h4>
 
-                      <p className="whitespace-pre-line text-white/60 leading-relaxed">
-                        {item.content}
-                      </p>
+                      {item.emails ? (
+                        <div className="space-y-1">
+                          {item.emails.map((email, index) => (
+                            <a
+                              key={index}
+                              href={`mailto:${email}`}
+                              className="block text-sm text-white/60 hover:text-[#D9B38C] transition-colors"
+                            >
+                              {email}
+                            </a>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="whitespace-pre-line text-white/60 leading-relaxed">
+                          {item.content}
+                        </p>
+                      )}
                     </div>
                   </motion.div>
                 );
@@ -131,14 +141,11 @@ export function Contact() {
             {/* FLOATING CARD */}
             <div className="absolute -top-8 -right-8 hidden lg:block">
               <div className="rounded-[30px] bg-[#111111]/90 backdrop-blur-xl border border-white/10 px-8 py-7 shadow-[0_20px_60px_rgba(0,0,0,0.4)]">
-                
                 <p className="uppercase tracking-[0.3em] text-[10px] text-[#D9B38C]/70 mb-3">
                   Premium Support
                 </p>
 
-                <h3 className="text-4xl font-black text-white">
-                  24/7
-                </h3>
+                <h3 className="text-4xl font-black text-white">24/7</h3>
 
                 <p className="mt-3 max-w-[180px] text-sm leading-relaxed text-white/55">
                   Dedicated lighting consultation for every project.
@@ -148,7 +155,6 @@ export function Contact() {
 
             {/* FORM CONTAINER */}
             <div className="rounded-[40px] border border-white/10 bg-white/[0.03] backdrop-blur-2xl p-8 md:p-12 shadow-[0_30px_80px_rgba(0,0,0,0.45)]">
-
               {/* FORM TITLE */}
               <div className="mb-10">
                 <span className="uppercase tracking-[0.3em] text-[11px] text-[#D9B38C] block mb-4">
@@ -160,10 +166,7 @@ export function Contact() {
                 </h3>
               </div>
 
-              <form
-                onSubmit={(e) => e.preventDefault()}
-                className="space-y-6"
-              >
+              <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
                 {/* ROW */}
                 <div className="grid md:grid-cols-2 gap-6">
                   <input
@@ -206,7 +209,6 @@ export function Contact() {
                   className="group flex w-full items-center justify-center gap-3 rounded-2xl bg-[#D9B38C] py-5 text-sm font-semibold uppercase tracking-[0.18em] text-black transition-all duration-300 hover:bg-white"
                 >
                   Send Message
-
                   <ArrowUpRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
                 </button>
               </form>

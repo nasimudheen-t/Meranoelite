@@ -1,9 +1,66 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, MapPin, Phone, ArrowUpRight } from "lucide-react";
+import { ENDPOINTS } from "@/lib/api";
+import { toast } from "react-hot-toast";
 
 export function Contact() {
+  const [loading, setLoading] = useState(false);
+
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    projectSubject: "",
+    message: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+
+      const response = await fetch(ENDPOINTS.contact, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to send message");
+      }
+
+      toast.success("Message sent successfully!");
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        projectSubject: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to send message");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <section
       id="contact"
@@ -74,14 +131,7 @@ export function Contact() {
                 {
                   icon: Mail,
                   title: "Email Address",
-                  emails: [
-                    "sulaiman@meranoelite.com",
-                    "navas@meranoelite.com",
-                    "sales@meranoelite.com",
-                    "sinfo@meranoelite.com",
-                    "accounts@meranoelite.com",
-                    "purchase@meranoelite.com",
-                  ],
+                  emails: ["info@meranoelite.com"],
                 },
               ].map((item, i) => {
                 const Icon = item.icon;
@@ -166,49 +216,63 @@ export function Contact() {
                 </h3>
               </div>
 
-              <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {" "}
                 {/* ROW */}
                 <div className="grid md:grid-cols-2 gap-6">
                   <input
                     type="text"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
                     placeholder="First Name"
                     className="h-16 rounded-2xl border border-white/10 bg-white/[0.04] px-6 text-white placeholder:text-white/35 outline-none transition-all duration-300 focus:border-[#D9B38C]"
                   />
 
                   <input
                     type="text"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
                     placeholder="Last Name"
                     className="h-16 rounded-2xl border border-white/10 bg-white/[0.04] px-6 text-white placeholder:text-white/35 outline-none transition-all duration-300 focus:border-[#D9B38C]"
                   />
                 </div>
-
                 {/* EMAIL */}
                 <input
                   type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   placeholder="Email Address"
                   className="h-16 w-full rounded-2xl border border-white/10 bg-white/[0.04] px-6 text-white placeholder:text-white/35 outline-none transition-all duration-300 focus:border-[#D9B38C]"
                 />
-
                 {/* SUBJECT */}
                 <input
                   type="text"
+                  name="projectSubject"
+                  value={formData.projectSubject}
+                  onChange={handleChange}
                   placeholder="Project Subject"
                   className="h-16 w-full rounded-2xl border border-white/10 bg-white/[0.04] px-6 text-white placeholder:text-white/35 outline-none transition-all duration-300 focus:border-[#D9B38C]"
                 />
-
                 {/* TEXTAREA */}
                 <textarea
                   rows={6}
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
                   placeholder="Tell us about your lighting project..."
                   className="w-full resize-none rounded-3xl border border-white/10 bg-white/[0.04] px-6 py-5 text-white placeholder:text-white/35 outline-none transition-all duration-300 focus:border-[#D9B38C]"
                 />
-
                 {/* BUTTON */}
                 <button
                   type="submit"
-                  className="group flex w-full items-center justify-center gap-3 rounded-2xl bg-[#D9B38C] py-5 text-sm font-semibold uppercase tracking-[0.18em] text-black transition-all duration-300 hover:bg-white"
+                  disabled={loading}
+                  className="group flex w-full items-center justify-center gap-3 rounded-2xl bg-[#D9B38C] py-5 text-sm font-semibold uppercase tracking-[0.18em] text-black transition-all duration-300 hover:bg-white disabled:opacity-60"
                 >
-                  Send Message
+                  {loading ? "Sending..." : "Send Message"}
+
                   <ArrowUpRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
                 </button>
               </form>

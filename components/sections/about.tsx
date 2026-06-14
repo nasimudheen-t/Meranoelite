@@ -152,7 +152,7 @@ export function About() {
             </motion.div>
 
             {/* STATS */}
-            <div className="grid grid-cols-3 gap-6 mt-16">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-10 sm:mt-16">
               {stats.map((item, i) => (
                 <motion.div
                   key={i}
@@ -160,13 +160,13 @@ export function About() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.12 }}
                   viewport={{ once: true }}
-                  className="border border-white/10 bg-white/5 backdrop-blur-md rounded-3xl p-6"
+                  className="border border-white/10 bg-white/5 backdrop-blur-md rounded-3xl p-5 sm:p-6"
                 >
-                  <h3 className="text-4xl font-black text-white">
+                  <h3 className="text-3xl sm:text-4xl font-black text-white">
                     {item.value}
                   </h3>
 
-                  <p className="mt-2 uppercase tracking-[0.2em] text-[11px] text-[#D9B38C]">
+                  <p className="mt-2 uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[10px] sm:text-[11px] text-[#D9B38C]">
                     {item.label}
                   </p>
                 </motion.div>

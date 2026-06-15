@@ -78,7 +78,7 @@ export function Footer() {
                   href={`https://wa.me/971507055644`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-auto w-full py-4 bg-[#25D366] text-white font-semibold rounded-xl hover:opacity-90 transition-colors text-center bg-green-800"
+                   className="group flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-[#171717] transition-all duration-300 hover:bg-white"
                 >
                 <MessageCircle className="w-5 h-5 text-white/70 group-hover:text-black" />
               </a>

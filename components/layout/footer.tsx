@@ -14,7 +14,7 @@ export function Footer() {
     "sulaiman@meranoelite.com",
     "navas@meranoelite.com",
     "sales@meranoelite.com",
-    "sinfo@meranoelite.com",
+    "info@meranoelite.com",
     "accounts@meranoelite.com",
     "purchase@meranoelite.com",
   ];

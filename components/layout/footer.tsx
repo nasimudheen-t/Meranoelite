@@ -11,12 +11,12 @@ import {
 
 export function Footer() {
   const emails = [
-    "sulaiman@meranoelite.com",
-    "navas@meranoelite.com",
-    "sales@meranoelite.com",
+    // "sulaiman@meranoelite.com",
+    // "navas@meranoelite.com",
+    // "sales@meranoelite.com",
     "info@meranoelite.com",
-    "accounts@meranoelite.com",
-    "purchase@meranoelite.com",
+    // "accounts@meranoelite.com",
+    // "purchase@meranoelite.com",
   ];
 
   return (
@@ -90,7 +90,7 @@ export function Footer() {
             <div className="flex items-center gap-2 mb-4">
               <Mail className="w-5 h-5 text-[#D9B38C]" />
               <h3 className="text-lg font-medium text-white">
-                Contact Emails
+                Contact Email
               </h3>
             </div>
 
@@ -111,7 +111,7 @@ export function Footer() {
         {/* BOTTOM */}
         <div className="mt-12 pt-6 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-white/35">
-            © {new Date().getFullYear()} Meranoelite. All rights reserved.
+            © 2024 Meranoelite. All rights reserved.
           </p>
 
           <div className="flex items-center gap-6">

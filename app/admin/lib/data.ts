@@ -50,4 +50,13 @@ export const categories = {
     "Ceiling Profile Lighting",
     "Wall Grazing Lighting",
   ],
+  "Furniture ": [
+    "Living Room Furniture",
+  "Bedroom Furniture",
+  "Dining Furniture",
+  "Office Furniture",
+  "Outdoor Furniture",
+  "Hospitality Furniture",
+  "Storage Furniture",
+  ],
 };

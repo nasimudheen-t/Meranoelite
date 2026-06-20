@@ -236,7 +236,7 @@ export function ProductsClient() {
                   </div>
                   <div>
                     <h2 className="text-3xl font-black uppercase tracking-tight text-white">
-                      Interior
+                      LIGHTING SOLUTIONS 
                     </h2>
                     <p className="mt-3 text-base leading-relaxed text-white/50">
                       Innovative, smart, and energy-efficient lighting designs. Enhance your home, commercial, or architectural spaces.

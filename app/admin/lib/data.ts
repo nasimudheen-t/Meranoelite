@@ -50,13 +50,23 @@ export const categories = {
     "Ceiling Profile Lighting",
     "Wall Grazing Lighting",
   ],
-  "Furniture ": [
-    "Living Room Furniture",
-  "Bedroom Furniture",
-  "Dining Furniture",
-  "Office Furniture",
-  "Outdoor Furniture",
-  "Hospitality Furniture",
-  "Storage Furniture",
-  ],
+"officeFurniture" : [
+  "Executive Tables",
+  "Manager Tables",
+  "Leather Chairs",
+  "Mesh Chairs",
+  "Visitor Chairs",
+  "Filing Cabinets",
+  "Meeting Tables",
+  "Reception Tables & sofas",
+  ,
+],
+ "homeFurniture" : [
+  "Bedroom Set",
+  "Wardrobe",
+  "Dining Set",
+  "Sofa Set",
+  "Curtains",
+  "Parquet Flooring",
+]
 };

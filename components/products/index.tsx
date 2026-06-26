@@ -28,7 +28,7 @@ export function ProductsClient() {
   const [products, setProducts] = useState<Product[]>([]);
   const productsPerPage = 15;
 
-  const furnitureCategories = ["OfficeFurniture", "HomeFurniture"];
+  const furnitureCategories = ["Office Furniture", "Home Furniture"];
   useEffect(() => {
     loadProducts();
   }, []);

@@ -62,18 +62,18 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
               {/* IMAGE */}
               <div className="w-full md:w-1/2 bg-white/5 p-4">
                 <div className="relative h-[450px] rounded-2xl overflow-hidden">
-                  <Image
-                    src={selectedImage}
-                    alt={product.product_name}
-                    fill
-                    className="object-cover"
-                  />
-
-                  <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 bg-black/50 backdrop-blur-md border border-white/10 rounded-full text-xs uppercase tracking-wider text-[#D9B38C]">
-                      {product.category}
-                    </span>
-                  </div>
+                  {selectedImage ? (
+                    <Image
+                      src={selectedImage}
+                      alt={product.product_name}
+                      fill
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="flex h-full items-center justify-center text-white/50">
+                      No image available
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex gap-3 mt-4">

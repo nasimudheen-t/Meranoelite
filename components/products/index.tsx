@@ -28,6 +28,7 @@ export function ProductsClient() {
   const [products, setProducts] = useState<Product[]>([]);
   const productsPerPage = 15;
 
+  const furnitureCategories = ["OfficeFurniture", "HomeFurniture"];
   useEffect(() => {
     loadProducts();
   }, []);
@@ -46,21 +47,26 @@ export function ProductsClient() {
     }
   };
 
-  const selectDivision = (division: "Furniture" | "Interior" | null) => {
-    setActiveDivision(division);
-    setActiveCategory(division === "Furniture" ? "Furniture " : "All");
-    setActiveSubcategory("All");
-    setCurrentPage(1);
-  };
+const selectDivision = (division: "Furniture" | "Interior" | null) => {
+  setActiveDivision(division);
+  setActiveCategory("All");
+  setActiveSubcategory("All");
+  setCurrentPage(1);
+};
 
-  const divisionProducts = useMemo(() => {
-    if (!activeDivision) return products;
-    return products.filter((product: any) => {
-      const isFurniture =
-        (product.category || "").trim().toLowerCase() === "furniture";
-      return activeDivision === "Furniture" ? isFurniture : !isFurniture;
-    });
-  }, [products, activeDivision]);
+const divisionProducts = useMemo(() => {
+  if (!activeDivision) return products;
+
+  return products.filter((product: any) => {
+    const isFurniture = furnitureCategories.includes(
+      (product.category || "").trim()
+    );
+
+    return activeDivision === "Furniture"
+      ? isFurniture
+      : !isFurniture;
+  });
+}, [products, activeDivision]);
 
   const categories = useMemo(() => {
     return [

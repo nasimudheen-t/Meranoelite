@@ -50,7 +50,7 @@ export const categories = {
     "Ceiling Profile Lighting",
     "Wall Grazing Lighting",
   ],
-"OfficeFurniture" : [
+"Office Furniture" : [
   "Executive Tables",
   "Manager Tables",
   "Leather Chairs",
@@ -61,7 +61,7 @@ export const categories = {
   "Reception Tables & sofas",
   ,
 ],
- "HomeFurniture" : [
+ "Home Furniture" : [
   "Bedroom Set",
   "Wardrobe",
   "Dining Set",

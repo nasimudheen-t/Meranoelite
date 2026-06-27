@@ -14,7 +14,7 @@ import { getProducts } from "@/lib/products";
 
 export function ProductsClient() {
   const [activeDivision, setActiveDivision] = useState<
-    "Furniture" | "Interior" | null
+    "Furniture" | "Lighting" | null
   >(null);
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeSubcategory, setActiveSubcategory] = useState("All");
@@ -47,7 +47,7 @@ export function ProductsClient() {
     }
   };
 
-const selectDivision = (division: "Furniture" | "Interior" | null) => {
+const selectDivision = (division: "Furniture" | "Lighting" | null) => {
   setActiveDivision(division);
   setActiveCategory("All");
   setActiveSubcategory("All");
@@ -160,7 +160,7 @@ const divisionProducts = useMemo(() => {
           <div className="grid gap-8 md:grid-cols-2">
             {/* Interior Card */}
             <button
-              onClick={() => selectDivision("Interior")}
+              onClick={() => selectDivision("Lighting")}
               className="group relative flex flex-col justify-between overflow-hidden rounded-[32px] border border-white/10 bg-[#0d0d0d] p-8 md:p-12 text-left transition-all duration-500 hover:border-white/20 hover:bg-white/[0.02] cursor-pointer shadow-2xl hover:shadow-[0_0_50px_rgba(255,255,255,0.02)]"
             >
               <div className="space-y-6 w-full">
@@ -307,14 +307,14 @@ const divisionProducts = useMemo(() => {
 
           <div className="flex rounded-full border border-white/10 bg-white/5 p-1">
             <button
-              onClick={() => selectDivision("Interior")}
+              onClick={() => selectDivision("Lighting")}
               className={`rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
-                activeDivision === "Interior"
+                activeDivision === "Lighting"
                   ? "bg-[#D9B38C] text-black"
                   : "text-white/60 hover:text-white"
               }`}
             >
-              Interior
+              Lighting
             </button>
             <button
               onClick={() => selectDivision("Furniture")}

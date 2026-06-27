@@ -16,10 +16,10 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
 
   useEffect(() => {
     if (product?.product_images?.length) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSelectedImage(product.product_images[0]);
     }
   }, [product]);
+
   if (!product) return null;
 
   return (
@@ -59,15 +59,18 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
                 <X className="w-5 h-5" />
               </button>
 
-              {/* IMAGE */}
-              <div className="w-full md:w-1/2 bg-white/5 p-4">
-                <div className="relative h-[450px] rounded-2xl overflow-hidden">
+              {/* IMAGE SECTION */}
+              <div className="w-full md:w-1/2 bg-white/5 p-4 flex flex-col">
+                {/* Main Image Container - Fixed Aspect Ratio */}
+                <div className="relative w-full aspect-square rounded-2xl overflow-hidden bg-[#1A1A1A]">
                   {selectedImage ? (
                     <Image
                       src={selectedImage}
                       alt={product.product_name}
                       fill
-                      className="object-cover"
+                      className="object-contain" // Changed from object-cover to object-contain
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      priority
                     />
                   ) : (
                     <div className="flex h-full items-center justify-center text-white/50">
@@ -76,15 +79,16 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
                   )}
                 </div>
 
-                <div className="flex gap-3 mt-4">
+                {/* Thumbnail Images - Fixed Size */}
+                <div className="flex gap-3 mt-4 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-white/20">
                   {product.product_images?.map((image, index) => (
                     <button
                       key={index}
                       onClick={() => setSelectedImage(image)}
-                      className={`relative h-20 w-20 overflow-hidden rounded-xl border-2 ${
+                      className={`relative flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 transition-all duration-200 ${
                         selectedImage === image
-                          ? "border-[#D9B38C]"
-                          : "border-white/10"
+                          ? "border-[#D9B38C] scale-105"
+                          : "border-white/10 hover:border-white/30"
                       }`}
                     >
                       <Image
@@ -92,6 +96,7 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
                         alt={`Image ${index + 1}`}
                         fill
                         className="object-cover"
+                        sizes="80px"
                       />
                     </button>
                   ))}
@@ -114,7 +119,7 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-auto w-full py-4 bg-[#25D366] text-white font-semibold rounded-xl hover:opacity-90 transition-colors text-center bg-green-800"
+                  className="mt-auto w-full py-4 bg-[#25D366] text-white font-semibold rounded-xl hover:opacity-90 transition-colors text-center"
                 >
                   Inquire on WhatsApp
                 </a>

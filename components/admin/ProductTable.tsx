@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { API_URL } from "@/lib/api";
-import { Trash2, Package } from "lucide-react";
 import { toast } from "react-hot-toast";
 import Image from "next/image";
+import { Trash2, Package, Pencil } from "lucide-react";
+import Link from "next/link";
 
 interface Product {
   id: number;
@@ -16,10 +17,49 @@ interface Product {
 export default function ProductTable() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [editLoading, setEditLoading] = useState(false);
+
+  const [editingProduct, setEditingProduct] = useState({
+    id: 0,
+    product_name: "",
+    product_description: "",
+    category: "",
+  });
 
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  //get products by id
+  const openEditModal = async (id: number) => {
+    try {
+      setEditLoading(true);
+
+      const response = await fetch(`${API_URL}/api/products/#${id}`);
+      const data = await response.json();
+      console.log("data", data);
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to fetch product");
+      }
+
+      const product = data.data;
+
+      setEditingProduct({
+        id: product.id,
+        product_name: product.product_name,
+        product_description: product.product_description,
+        category: product.category,
+      });
+
+      setIsEditOpen(true);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to load product");
+    } finally {
+      setEditLoading(false);
+    }
+  };
 
   const fetchProducts = async () => {
     try {
@@ -38,6 +78,43 @@ export default function ProductTable() {
     }
   };
 
+  //edit product
+  const updateProduct = async (
+    id: number,
+    product: {
+      product_name: string;
+      product_description: string;
+      category: string;
+    },
+  ) => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await fetch(`${API_URL}/api/products/${id}`, {
+        method: "PUT", // or PATCH if your route uses PATCH
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(product),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to update product");
+      }
+
+      toast.success(data.message || "Product updated successfully");
+
+      fetchProducts();
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to update product");
+    }
+  };
+
+  //delete product
   const deleteProduct = async (id: number) => {
     const token = localStorage.getItem("token");
 
@@ -153,19 +230,134 @@ export default function ProductTable() {
                     </span>
                   </td>
 
-                  <td className="px-6 py-5 text-right">
-                    <button
-                      onClick={() => deleteProduct(product.id)}
-                      className="inline-flex items-center gap-2 rounded-xl bg-red-500/15 px-4 py-2 text-red-400 transition-all hover:bg-red-500 hover:text-white"
-                    >
-                      <Trash2 size={16} />
-                      Delete
-                    </button>
+                  <td className="px-6 py-5">
+                    <div className="flex justify-end gap-3">
+                      <Link
+                        href={`/admin/products/edit/${product.id}`}
+                        className="inline-flex items-center gap-2 rounded-xl bg-blue-500/15 px-4 py-2 text-blue-400 transition hover:bg-blue-500 hover:text-white"
+                      >
+                        <Pencil size={16} />
+                        Edit
+                      </Link>
+
+                      <button
+                        onClick={() => deleteProduct(product.id)}
+                        className="inline-flex items-center gap-2 rounded-xl bg-red-500/15 px-4 py-2 text-red-400 transition hover:bg-red-500 hover:text-white"
+                      >
+                        <Trash2 size={16} />
+                        Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          {isEditOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+              <div className="w-full max-w-lg rounded-2xl border border-white/10 bg-zinc-900 p-6 shadow-2xl">
+                <div className="mb-6 flex items-center justify-between">
+                  <h2 className="text-2xl font-bold text-white">
+                    Edit Product
+                  </h2>
+
+                  <button
+                    onClick={() => setIsEditOpen(false)}
+                    className="text-2xl text-zinc-400 hover:text-white"
+                  >
+                    ×
+                  </button>
+                </div>
+
+                {editLoading ? (
+                  <div className="flex justify-center py-10">
+                    <div className="h-10 w-10 animate-spin rounded-full border-4 border-zinc-700 border-t-white"></div>
+                  </div>
+                ) : (
+                  <>
+                    <div className="space-y-5">
+                      <div>
+                        <label className="mb-2 block text-sm text-zinc-400">
+                          Product Name
+                        </label>
+
+                        <input
+                          type="text"
+                          value={editingProduct.product_name}
+                          onChange={(e) =>
+                            setEditingProduct({
+                              ...editingProduct,
+                              product_name: e.target.value,
+                            })
+                          }
+                          className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 text-white outline-none focus:border-blue-500"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="mb-2 block text-sm text-zinc-400">
+                          Description
+                        </label>
+
+                        <textarea
+                          rows={5}
+                          value={editingProduct.product_description}
+                          onChange={(e) =>
+                            setEditingProduct({
+                              ...editingProduct,
+                              product_description: e.target.value,
+                            })
+                          }
+                          className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 text-white outline-none focus:border-blue-500"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="mb-2 block text-sm text-zinc-400">
+                          Category
+                        </label>
+
+                        <input
+                          type="text"
+                          value={editingProduct.category}
+                          onChange={(e) =>
+                            setEditingProduct({
+                              ...editingProduct,
+                              category: e.target.value,
+                            })
+                          }
+                          className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 text-white outline-none focus:border-blue-500"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="mt-8 flex justify-end gap-3">
+                      <button
+                        onClick={() => setIsEditOpen(false)}
+                        className="rounded-xl border border-zinc-700 px-5 py-3 text-white hover:bg-zinc-800"
+                      >
+                        Cancel
+                      </button>
+
+                      <button
+                        onClick={() =>
+                          updateProduct(editingProduct.id, {
+                            product_name: editingProduct.product_name,
+                            product_description:
+                              editingProduct.product_description,
+                            category: editingProduct.category,
+                          })
+                        }
+                        className="rounded-xl bg-blue-600 px-5 py-3 text-black hover:bg-blue-700"
+                      >
+                        Save Changes
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

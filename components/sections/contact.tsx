@@ -120,7 +120,7 @@ export function Contact() {
               {[
                 {
                   icon: MapPin,
-                  title: "Visit Showroom",
+                  title: "Visit Office",
                   content: "M-floorMb-29,City Avenue Building,27 Street,Port Saeed,Deira,Dubai UAE",
                 },
                 {

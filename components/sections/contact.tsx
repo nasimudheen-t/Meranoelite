@@ -126,7 +126,7 @@ export function Contact() {
                 {
                   icon: Phone,
                   title: "Phone Number",
-                  content: "+971507055644",
+                  content: "+971544936453",
                 },
                 {
                   icon: Mail,

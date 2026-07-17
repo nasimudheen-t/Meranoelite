@@ -75,7 +75,7 @@ export function Footer() {
               </a>
 
                <a
-                  href={`https://wa.me/971507055644`}
+                  href={`https://wa.me/971544936453`}
                   target="_blank"
                   rel="noopener noreferrer"
                    className="group flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-[#171717] transition-all duration-300 hover:bg-white"

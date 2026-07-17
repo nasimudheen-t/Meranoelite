@@ -109,12 +109,12 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
                   {product.product_name}
                 </h2>
 
-                <p className="text-white/70 leading-relaxed mb-8 whitespace-pre-line">
+                <p className="text-white/70 leading-relaxed mb-8 whitespace-pre-line  ">
                   {product.product_description || "No description available"}
                 </p>
 
                 <a
-                  href={`https://wa.me/971507055644?text=${encodeURIComponent(
+                  href={`https://wa.me/971544936453?text=${encodeURIComponent(
                     `Hi, I'm interested in ${product.product_name}`,
                   )}`}
                   target="_blank"

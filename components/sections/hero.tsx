@@ -12,27 +12,44 @@ export function Hero() {
       id="home"
       className="relative min-h-screen overflow-hidden bg-[#0a0a08]"
     >
-      {/* BACKGROUND IMAGE */}
+      {/* BACKGROUND VIDEO */}
+      {/* BACKGROUND VIDEO */}
       <motion.div
         initial={{ scale: 1.05, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 1.2 }}
-        className="absolute inset-0"
+        className="absolute inset-0 overflow-hidden"
       >
-        <img
-          src="/images/interior-1.png"
-          alt="Luxury lighting"
-          className="w-full h-full object-cover"
-        />
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster="/images/interior-1.png"
+          className="
+      absolute inset-0
+      w-full h-full
+      object-cover
+      object-center
+      md:object-center
+    "
+        >
+          <source src="/video/video.webm" type="video/webm" />
+        </video>
 
         {/* DARK OVERLAY */}
-        <div className="absolute inset-0 bg-black/10" />
-        {/* SOFT LEFT GRADIENT */}
-        {/* <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" /> */}
+        <div className="absolute inset-0 bg-black/20" />
+
+        {/* LEFT GRADIENT */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/10 to-transparent" />
       </motion.div>
 
       {/* CONTENT */}
-      <div className="relative z-10 flex items-center min-h-screen px-8 md:px-16 lg:px-24">
+      <motion.div
+        style={{ opacity }}
+        className="relative z-10 flex items-center min-h-screen px-8 md:px-16 lg:px-24"
+      >
         <div className="max-w-[620px]">
           {/* EYEBROW */}
           <motion.div
@@ -42,6 +59,7 @@ export function Hero() {
             className="flex items-center gap-3 mb-6"
           >
             <div className="w-8 h-[1px] bg-[#c9a96e]" />
+
             <span className="text-white/70 uppercase tracking-[0.25em] text-[11px]">
               Premium LED Solutions
             </span>
@@ -74,16 +92,20 @@ export function Hero() {
           </motion.p>
 
           {/* BUTTON */}
-          <motion.button
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.4 }}
-            className="bg-[#c9a96e] hover:bg-[#d6b278] text-black px-8 py-[14px] rounded-full text-[12px] uppercase tracking-[0.2em] font-semibold transition-all duration-300"
           >
-           <Link href="#products"> Explore Collection</Link>
-          </motion.button>
+            <Link
+              href="#products"
+              className="inline-flex bg-[#c9a96e] hover:bg-[#d6b278] text-black px-8 py-[14px] rounded-full text-[12px] uppercase tracking-[0.2em] font-semibold transition-all duration-300"
+            >
+              Explore Collection
+            </Link>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

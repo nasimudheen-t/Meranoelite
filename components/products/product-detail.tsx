@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Share2, ArrowLeft, MessageSquare } from "lucide-react";
+import { Share2, ArrowLeft, MessageSquare, Download } from "lucide-react";
 import type { Product } from "@/types/product";
+import { toast } from "react-hot-toast";
 
 interface ProductDetailProps {
   product: Product;
@@ -21,6 +22,137 @@ export function ProductDetail({ product }: ProductDetailProps) {
   }, [product]);
 
   const productUrl = `https://www.meranoelite.com/products/${product.id}`;
+  const [sharing, setSharing] = useState(false);
+  const [imageFiles, setImageFiles] = useState<{ [url: string]: File }>({});
+
+  const showShareMainImage = product.product_images && product.product_images.length > 1 && selectedImage !== product.product_images[0];
+
+  useEffect(() => {
+    if (!product.product_images?.length) return;
+
+    const prefetch = async () => {
+      const filesMap: { [url: string]: File } = {};
+      for (const imageUrl of product.product_images) {
+        try {
+          const response = await fetch(`/api/image-proxy?url=${encodeURIComponent(imageUrl)}`);
+          if (response.ok) {
+            const blob = await response.blob();
+            const extension = blob.type.split("/")[1] || "jpg";
+            const filename = `${product.product_name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.${extension}`;
+            const file = new File([blob], filename, { type: blob.type || "image/jpeg" });
+            filesMap[imageUrl] = file;
+          }
+        } catch (e) {
+          console.error("Prefetch error for", imageUrl, e);
+        }
+      }
+      setImageFiles(prev => ({ ...prev, ...filesMap }));
+    };
+
+    prefetch();
+  }, [product]);
+
+  const triggerDownload = (file: File) => {
+    const url = URL.createObjectURL(file);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = file.name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleShareImage = async (imageUrl: string, forceDownload = false) => {
+    const file = imageFiles[imageUrl];
+    if (!file) {
+      toast.error("Image is still preparing. Please try again in a moment.");
+      return;
+    }
+
+    if (sharing) return;
+    setSharing(true);
+
+    const shareData = {
+      title: product.product_name,
+      text: `${product.product_name}\n${productUrl}`,
+      files: [file],
+    };
+
+    try {
+      if (!forceDownload && navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share(shareData);
+        } catch (shareError: any) {
+          if (shareError.name !== "AbortError") {
+            console.error("Native share failed:", shareError);
+            triggerDownload(file);
+            toast.error("Sharing failed. Image downloaded instead.");
+          }
+        }
+      } else {
+        triggerDownload(file);
+        if (forceDownload) {
+          toast.success("Image downloaded successfully.");
+        } else {
+          toast.success("Sharing unsupported on this browser. Image downloaded instead.");
+        }
+      }
+    } catch (err) {
+      console.error("Sharing process failed:", err);
+      toast.error("Sharing failed.");
+    } finally {
+      setSharing(false);
+    }
+  };
+
+  const handleWhatsAppShareImage = async () => {
+    const imageUrl = selectedImage || (product.product_images?.[0] || "");
+    const file = imageFiles[imageUrl];
+
+    if (!file) {
+      // Fallback directly to text link if image is not pre-fetched yet
+      const message = `${product.product_name}\n${productUrl}`;
+      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, "_blank");
+      return;
+    }
+
+    if (sharing) return;
+    setSharing(true);
+
+    const shareData = {
+      title: product.product_name,
+      text: `${product.product_name}\n${productUrl}`,
+      files: [file],
+    };
+
+    try {
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share(shareData);
+        } catch (shareError: any) {
+          if (shareError.name !== "AbortError") {
+            console.error("Native share failed:", shareError);
+            const message = `${product.product_name}\n${productUrl}`;
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, "_blank");
+          }
+        }
+      } else {
+        const message = `${product.product_name}\n${productUrl}`;
+        const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, "_blank");
+      }
+    } catch (err) {
+      console.error("WhatsApp share failed:", err);
+      const message = `${product.product_name}\n${productUrl}`;
+      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, "_blank");
+    } finally {
+      setSharing(false);
+    }
+  };
 
   const handleShare = async () => {
     const shareData = {
@@ -35,6 +167,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
       } else {
         await navigator.clipboard.writeText(productUrl);
         setCopied(true);
+        toast.success("Link copied to clipboard!");
         setTimeout(() => setCopied(false), 2000);
       }
     } catch (error) {
@@ -42,17 +175,14 @@ export function ProductDetail({ product }: ProductDetailProps) {
     }
   };
 
-  const handleWhatsAppShare = () => {
-    const message = `${product.product_name}\n${productUrl}`;
-    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, "_blank");
-  };
-
   const handleWhatsAppInquire = () => {
     const message = `Hello, I would like to inquire about this product:\n\n${product.product_name}\n${productUrl}`;
     const whatsappUrl = `https://wa.me/971544936453?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank");
   };
+
+  const isImageReady = !!imageFiles[selectedImage];
+  const isMainImageReady = !!imageFiles[product.product_images?.[0] || ""];
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 md:px-8 py-12">
@@ -142,6 +272,51 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
           {/* ACTIONS */}
           <div className="space-y-4">
+            {/* SHARE IMAGE BUTTON */}
+            <button
+              onClick={() => handleShareImage(selectedImage)}
+              disabled={sharing || !isImageReady}
+              className="w-full py-4 bg-white/10 border border-white/20 text-white font-semibold rounded-xl hover:bg-white/20 transition-all duration-200 text-center flex items-center justify-center gap-3 disabled:opacity-50"
+            >
+              <Share2 className="w-5 h-5 text-[#D9B38C]" />
+              {isImageReady ? "Share Selected Image" : "Preparing Image..."}
+            </button>
+
+            {/* SHARE MAIN IMAGE BUTTON */}
+            {showShareMainImage && (
+              <button
+                onClick={() => handleShareImage(product.product_images[0])}
+                disabled={sharing || !isMainImageReady}
+                className="w-full py-3.5 bg-white/5 border border-white/10 text-white/80 text-sm font-medium rounded-xl hover:bg-white/10 transition-all duration-200 text-center flex items-center justify-center gap-2 disabled:opacity-50"
+              >
+                <Share2 className="w-4 h-4 text-white/45" />
+                {isMainImageReady ? "Share Main Image Directly" : "Preparing Main Image..."}
+              </button>
+            )}
+
+            <div className="grid grid-cols-2 gap-4">
+              {/* SHARE ON WHATSAPP */}
+              <button
+                onClick={handleWhatsAppShareImage}
+                disabled={sharing}
+                className="py-4 border border-[#25D366]/20 bg-[#25D366]/5 text-[#25D366] font-semibold rounded-xl hover:bg-[#25D366]/10 transition-colors flex items-center justify-center gap-2 text-sm disabled:opacity-50"
+              >
+                <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.517 2.266 2.27 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.73-1.45L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.97C16.59 1.966 14.122.95 11.99.95c-5.432 0-9.855 4.37-9.859 9.8c-.002 1.76.478 3.478 1.39 5.004L2.52 21.55l5.87-1.514-.743-.882zM17.472 14.382c-.3-.149-1.777-.872-2.046-.971-.27-.099-.467-.149-.662.15-.195.297-.757.971-.928 1.17-.17.197-.341.221-.641.073-.3-.15-1.267-.467-2.417-1.493-.895-.8-1.499-1.787-1.675-2.087-.176-.3-.019-.461.13-.61l.443-.518c.15-.173.2-.297.3-.497.1-.201.05-.376-.025-.524-.075-.15-.662-1.6-.906-2.185-.237-.57-.48-.493-.662-.503-.171-.008-.367-.01-.563-.01-.197 0-.518.073-.788.374-.27.299-1.03 1.009-1.03 2.46 0 1.45 1.053 2.852 1.2 3.05.148.199 2.072 3.166 5.02 4.444.702.304 1.25.486 1.677.622.705.224 1.346.193 1.854.117.564-.084 1.778-.726 2.028-1.393.25-.667.25-1.238.176-1.392-.074-.15-.27-.249-.571-.397z"/>
+                </svg>
+                {isImageReady ? "Share to WA" : "Loading..."}
+              </button>
+
+              {/* SHARE PRODUCT LINK */}
+              <button
+                onClick={handleShare}
+                className="py-4 border border-white/10 bg-white/5 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors flex items-center justify-center gap-2 text-sm"
+              >
+                <Share2 className="w-5 h-5 text-white/50" />
+                {copied ? "Link Copied!" : "Share Link"}
+              </button>
+            </div>
+
             {/* WHATSAPP INQUIRY BUTTON */}
             <button
               onClick={handleWhatsAppInquire}
@@ -150,28 +325,6 @@ export function ProductDetail({ product }: ProductDetailProps) {
               <MessageSquare className="w-5 h-5" />
               Inquire on WhatsApp
             </button>
-
-            <div className="grid grid-cols-2 gap-4">
-              {/* SHARE ON WHATSAPP */}
-              <button
-                onClick={handleWhatsAppShare}
-                className="py-4 border border-[#25D366]/20 bg-[#25D366]/5 text-[#25D366] font-semibold rounded-xl hover:bg-[#25D366]/10 transition-colors flex items-center justify-center gap-2 text-sm"
-              >
-                <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.517 2.266 2.27 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.73-1.45L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.97C16.59 1.966 14.122.95 11.99.95c-5.432 0-9.855 4.37-9.859 9.8c-.002 1.76.478 3.478 1.39 5.004L2.52 21.55l5.87-1.514-.743-.882zM17.472 14.382c-.3-.149-1.777-.872-2.046-.971-.27-.099-.467-.149-.662.15-.195.297-.757.971-.928 1.17-.17.197-.341.221-.641.073-.3-.15-1.267-.467-2.417-1.493-.895-.8-1.499-1.787-1.675-2.087-.176-.3-.019-.461.13-.61l.443-.518c.15-.173.2-.297.3-.497.1-.201.05-.376-.025-.524-.075-.15-.662-1.6-.906-2.185-.237-.57-.48-.493-.662-.503-.171-.008-.367-.01-.563-.01-.197 0-.518.073-.788.374-.27.299-1.03 1.009-1.03 2.46 0 1.45 1.053 2.852 1.2 3.05.148.199 2.072 3.166 5.02 4.444.702.304 1.25.486 1.677.622.705.224 1.346.193 1.854.117.564-.084 1.778-.726 2.028-1.393.25-.667.25-1.238.176-1.392-.074-.15-.27-.249-.571-.397z"/>
-                </svg>
-                Share to WA
-              </button>
-
-              {/* GENERAL SHARE */}
-              <button
-                onClick={handleShare}
-                className="py-4 border border-white/10 bg-white/5 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors flex items-center justify-center gap-2 text-sm"
-              >
-                <Share2 className="w-5 h-5" />
-                {copied ? "Link Copied!" : "Share Product"}
-              </button>
-            </div>
           </div>
         </div>
       </div>

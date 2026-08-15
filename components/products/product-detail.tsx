@@ -25,7 +25,10 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const [sharing, setSharing] = useState(false);
   const [imageFiles, setImageFiles] = useState<{ [url: string]: File }>({});
 
-  const showShareMainImage = product.product_images && product.product_images.length > 1 && selectedImage !== product.product_images[0];
+  const showShareMainImage =
+    product.product_images &&
+    product.product_images.length > 1 &&
+    selectedImage !== product.product_images[0];
 
   useEffect(() => {
     if (!product.product_images?.length) return;
@@ -34,19 +37,23 @@ export function ProductDetail({ product }: ProductDetailProps) {
       const filesMap: { [url: string]: File } = {};
       for (const imageUrl of product.product_images) {
         try {
-          const response = await fetch(`/api/image-proxy?url=${encodeURIComponent(imageUrl)}`);
+          const response = await fetch(
+            `/api/image-proxy?url=${encodeURIComponent(imageUrl)}`,
+          );
           if (response.ok) {
             const blob = await response.blob();
             const extension = blob.type.split("/")[1] || "jpg";
-            const filename = `${product.product_name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.${extension}`;
-            const file = new File([blob], filename, { type: blob.type || "image/jpeg" });
+            const filename = `${product.product_name.replace(/[^a-z0-9]/gi, "_").toLowerCase()}.${extension}`;
+            const file = new File([blob], filename, {
+              type: blob.type || "image/jpeg",
+            });
             filesMap[imageUrl] = file;
           }
         } catch (e) {
           console.error("Prefetch error for", imageUrl, e);
         }
       }
-      setImageFiles(prev => ({ ...prev, ...filesMap }));
+      setImageFiles((prev) => ({ ...prev, ...filesMap }));
     };
 
     prefetch();
@@ -81,7 +88,11 @@ export function ProductDetail({ product }: ProductDetailProps) {
     };
 
     try {
-      if (!forceDownload && navigator.canShare && navigator.canShare({ files: [file] })) {
+      if (
+        !forceDownload &&
+        navigator.canShare &&
+        navigator.canShare({ files: [file] })
+      ) {
         try {
           await navigator.share(shareData);
         } catch (shareError: any) {
@@ -96,7 +107,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
         if (forceDownload) {
           toast.success("Image downloaded successfully.");
         } else {
-          toast.success("Sharing unsupported on this browser. Image downloaded instead.");
+          toast.success(
+            "Sharing unsupported on this browser. Image downloaded instead.",
+          );
         }
       }
     } catch (err) {
@@ -108,7 +121,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
   };
 
   const handleWhatsAppShareImage = async () => {
-    const imageUrl = selectedImage || (product.product_images?.[0] || "");
+    const imageUrl = selectedImage || product.product_images?.[0] || "";
     const file = imageFiles[imageUrl];
 
     if (!file) {
@@ -194,7 +207,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
         className="inline-flex items-center gap-2 text-white/60 hover:text-white mb-8 transition-colors group"
       >
         <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
-        <span className="text-sm font-semibold uppercase tracking-wider">Back to Products</span>
+        <span className="text-sm font-semibold uppercase tracking-wider">
+          Back to Products
+        </span>
       </Link>
 
       <div className="bg-[#0A0A0A] border border-white/10 rounded-3xl overflow-hidden flex flex-col md:flex-row shadow-2xl relative">
@@ -273,52 +288,57 @@ export function ProductDetail({ product }: ProductDetailProps) {
           </div>
 
           {/* ACTIONS */}
-        <div className="space-y-4">
-  {/* SHARE IMAGE BUTTON + SHARE LINK SIDE BY SIDE */}
-  <div className="grid grid-cols-2 gap-4">
-    {/* SHARE IMAGE BUTTON */}
-    <button
-      onClick={() => handleShareImage(selectedImage)}
-      disabled={sharing || !isImageReady}
-      className="py-4 bg-white/10 border border-white/20 text-white font-semibold rounded-xl hover:bg-white/20 transition-all duration-200 text-center flex items-center justify-center gap-2 disabled:opacity-50"
-    >
-      <Share2 className="w-5 h-5 text-[#D9B38C]" />
-      {isImageReady ? "Share With Image" : "Preparing Link..."}
-    </button>
+          <div className="space-y-4">
+            {/* SHARE IMAGE BUTTON + SHARE LINK SIDE BY SIDE */}
+            <div className="grid grid-cols-2 gap-2 sm:gap-4">
+              {/* SHARE IMAGE BUTTON */}
+              <button
+                onClick={() => handleShareImage(selectedImage)}
+                disabled={sharing || !isImageReady}
+                className="w-full min-w-0 h-12 sm:h-14 px-2 sm:px-4 bg-white/10 border border-white/20 text-white font-semibold rounded-xl hover:bg-white/20 transition-all duration-200 flex items-center justify-center gap-1.5 sm:gap-2 disabled:opacity-50"
+              >
+                <Share2 className="w-4 h-4 sm:w-5 sm:h-5 shrink-0 text-[#D9B38C]" />
 
-    {/* SHARE PRODUCT LINK */}
-    <button
-      onClick={handleShare}
-      className="py-4 border border-white/10 bg-white/5 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors flex items-center justify-center gap-2 text-sm"
-    >
-      <Share2 className="w-5 h-5 text-white/50" />
-      {copied ? "Link Copied!" : "Share Link"}
-    </button>
-  </div>
+                <span className="whitespace-nowrap text-[11px] sm:text-sm">
+                  {isImageReady ? "Share With Image" : "Preparing..."}
+                </span>
+              </button>
 
-  {/* SHARE MAIN IMAGE BUTTON */}
-  {showShareMainImage && (
-    <button
-      onClick={() => handleShareImage(product.product_images[0])}
-      disabled={sharing || !isMainImageReady}
-      className="w-full py-3.5 bg-white/5 border border-white/10 text-white/80 text-sm font-medium rounded-xl hover:bg-white/10 transition-all duration-200 text-center flex items-center justify-center gap-2 disabled:opacity-50"
-    >
-      <Share2 className="w-4 h-4 text-white/45" />
-      {isMainImageReady
-        ? "Share Main Image Directly"
-        : "Preparing Main Image..."}
-    </button>
-  )}
+              {/* SHARE PRODUCT LINK */}
+              <button
+                onClick={handleShare}
+                className="w-full min-w-0 h-12 sm:h-14 px-2 sm:px-4 border border-white/10 bg-white/5 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors flex items-center justify-center gap-1.5 sm:gap-2"
+              >
+                <Share2 className="w-4 h-4 sm:w-5 sm:h-5 shrink-0 text-white/50" />
 
-  {/* WHATSAPP INQUIRY BUTTON */}
-  <button
-    onClick={handleWhatsAppInquire}
-    className="w-full py-4 bg-[#25D366] text-white font-semibold rounded-xl hover:opacity-90 transition-all duration-200 text-center flex items-center justify-center gap-3 shadow-lg shadow-[#25D366]/10"
-  >
-    <MessageSquare className="w-5 h-5" />
-    Inquire on WhatsApp
-  </button>
-</div>
+                <span className="whitespace-nowrap text-[11px] sm:text-sm">
+                  {copied ? "Link Copied!" : "Share Link"}
+                </span>
+              </button>
+            </div>
+            {/* SHARE MAIN IMAGE BUTTON */}
+            {showShareMainImage && (
+              <button
+                onClick={() => handleShareImage(product.product_images[0])}
+                disabled={sharing || !isMainImageReady}
+                className="w-full py-3.5 bg-white/5 border border-white/10 text-white/80 text-sm font-medium rounded-xl hover:bg-white/10 transition-all duration-200 text-center flex items-center justify-center gap-2 disabled:opacity-50"
+              >
+                <Share2 className="w-4 h-4 text-white/45" />
+                {isMainImageReady
+                  ? "Share Main Image Directly"
+                  : "Preparing Main Image..."}
+              </button>
+            )}
+
+            {/* WHATSAPP INQUIRY BUTTON */}
+            <button
+              onClick={handleWhatsAppInquire}
+              className="w-full py-4 bg-[#25D366] text-white font-semibold rounded-xl hover:opacity-90 transition-all duration-200 text-center flex items-center justify-center gap-3 shadow-lg shadow-[#25D366]/10"
+            >
+              <MessageSquare className="w-5 h-5" />
+              Inquire on WhatsApp
+            </button>
+          </div>
         </div>
       </div>
     </div>

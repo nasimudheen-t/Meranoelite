@@ -273,61 +273,52 @@ export function ProductDetail({ product }: ProductDetailProps) {
           </div>
 
           {/* ACTIONS */}
-          <div className="space-y-4">
-            {/* SHARE IMAGE BUTTON */}
-            <button
-              onClick={() => handleShareImage(selectedImage)}
-              disabled={sharing || !isImageReady}
-              className="w-full py-4 bg-white/10 border border-white/20 text-white font-semibold rounded-xl hover:bg-white/20 transition-all duration-200 text-center flex items-center justify-center gap-3 disabled:opacity-50"
-            >
-              <Share2 className="w-5 h-5 text-[#D9B38C]" />
-              {isImageReady ? "Share Selected Image" : "Preparing Image..."}
-            </button>
+        <div className="space-y-4">
+  {/* SHARE IMAGE BUTTON + SHARE LINK SIDE BY SIDE */}
+  <div className="grid grid-cols-2 gap-4">
+    {/* SHARE IMAGE BUTTON */}
+    <button
+      onClick={() => handleShareImage(selectedImage)}
+      disabled={sharing || !isImageReady}
+      className="py-4 bg-white/10 border border-white/20 text-white font-semibold rounded-xl hover:bg-white/20 transition-all duration-200 text-center flex items-center justify-center gap-2 disabled:opacity-50"
+    >
+      <Share2 className="w-5 h-5 text-[#D9B38C]" />
+      {isImageReady ? "Share With Image" : "Preparing Link..."}
+    </button>
 
-            {/* SHARE MAIN IMAGE BUTTON */}
-            {showShareMainImage && (
-              <button
-                onClick={() => handleShareImage(product.product_images[0])}
-                disabled={sharing || !isMainImageReady}
-                className="w-full py-3.5 bg-white/5 border border-white/10 text-white/80 text-sm font-medium rounded-xl hover:bg-white/10 transition-all duration-200 text-center flex items-center justify-center gap-2 disabled:opacity-50"
-              >
-                <Share2 className="w-4 h-4 text-white/45" />
-                {isMainImageReady ? "Share Main Image Directly" : "Preparing Main Image..."}
-              </button>
-            )}
+    {/* SHARE PRODUCT LINK */}
+    <button
+      onClick={handleShare}
+      className="py-4 border border-white/10 bg-white/5 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors flex items-center justify-center gap-2 text-sm"
+    >
+      <Share2 className="w-5 h-5 text-white/50" />
+      {copied ? "Link Copied!" : "Share Link"}
+    </button>
+  </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              {/* SHARE ON WHATSAPP */}
-              <button
-                onClick={handleWhatsAppShareImage}
-                disabled={sharing}
-                className="py-4 border border-[#25D366]/20 bg-[#25D366]/5 text-[#25D366] font-semibold rounded-xl hover:bg-[#25D366]/10 transition-colors flex items-center justify-center gap-2 text-sm disabled:opacity-50"
-              >
-                <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.517 2.266 2.27 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.73-1.45L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.97C16.59 1.966 14.122.95 11.99.95c-5.432 0-9.855 4.37-9.859 9.8c-.002 1.76.478 3.478 1.39 5.004L2.52 21.55l5.87-1.514-.743-.882zM17.472 14.382c-.3-.149-1.777-.872-2.046-.971-.27-.099-.467-.149-.662.15-.195.297-.757.971-.928 1.17-.17.197-.341.221-.641.073-.3-.15-1.267-.467-2.417-1.493-.895-.8-1.499-1.787-1.675-2.087-.176-.3-.019-.461.13-.61l.443-.518c.15-.173.2-.297.3-.497.1-.201.05-.376-.025-.524-.075-.15-.662-1.6-.906-2.185-.237-.57-.48-.493-.662-.503-.171-.008-.367-.01-.563-.01-.197 0-.518.073-.788.374-.27.299-1.03 1.009-1.03 2.46 0 1.45 1.053 2.852 1.2 3.05.148.199 2.072 3.166 5.02 4.444.702.304 1.25.486 1.677.622.705.224 1.346.193 1.854.117.564-.084 1.778-.726 2.028-1.393.25-.667.25-1.238.176-1.392-.074-.15-.27-.249-.571-.397z"/>
-                </svg>
-                {isImageReady ? "Share to WA" : "Loading..."}
-              </button>
+  {/* SHARE MAIN IMAGE BUTTON */}
+  {showShareMainImage && (
+    <button
+      onClick={() => handleShareImage(product.product_images[0])}
+      disabled={sharing || !isMainImageReady}
+      className="w-full py-3.5 bg-white/5 border border-white/10 text-white/80 text-sm font-medium rounded-xl hover:bg-white/10 transition-all duration-200 text-center flex items-center justify-center gap-2 disabled:opacity-50"
+    >
+      <Share2 className="w-4 h-4 text-white/45" />
+      {isMainImageReady
+        ? "Share Main Image Directly"
+        : "Preparing Main Image..."}
+    </button>
+  )}
 
-              {/* SHARE PRODUCT LINK */}
-              <button
-                onClick={handleShare}
-                className="py-4 border border-white/10 bg-white/5 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors flex items-center justify-center gap-2 text-sm"
-              >
-                <Share2 className="w-5 h-5 text-white/50" />
-                {copied ? "Link Copied!" : "Share Link"}
-              </button>
-            </div>
-
-            {/* WHATSAPP INQUIRY BUTTON */}
-            <button
-              onClick={handleWhatsAppInquire}
-              className="w-full py-4 bg-[#25D366] text-white font-semibold rounded-xl hover:opacity-90 transition-all duration-200 text-center flex items-center justify-center gap-3 shadow-lg shadow-[#25D366]/10"
-            >
-              <MessageSquare className="w-5 h-5" />
-              Inquire on WhatsApp
-            </button>
-          </div>
+  {/* WHATSAPP INQUIRY BUTTON */}
+  <button
+    onClick={handleWhatsAppInquire}
+    className="w-full py-4 bg-[#25D366] text-white font-semibold rounded-xl hover:opacity-90 transition-all duration-200 text-center flex items-center justify-center gap-3 shadow-lg shadow-[#25D366]/10"
+  >
+    <MessageSquare className="w-5 h-5" />
+    Inquire on WhatsApp
+  </button>
+</div>
         </div>
       </div>
     </div>

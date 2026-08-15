@@ -38,7 +38,6 @@ export default function ProductTable() {
 
       const response = await fetch(`${API_URL}/api/products/#${id}`);
       const data = await response.json();
-      console.log("data", data);
       if (!response.ok) {
         throw new Error(data.message || "Failed to fetch product");
       }

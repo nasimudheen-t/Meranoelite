@@ -11,8 +11,24 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, onClick }: ProductCardProps) {
-  console.log(product.product_images);
   const firstImage = product.product_images?.[0];
+  console.log("price", product);
+  const handleShare = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    const productUrl = `https://www.meranoelite.com/products/${product.id}`;
+
+    if (navigator.share) {
+      await navigator.share({
+        title: product.product_name,
+        text: product.product_description,
+        url: productUrl,
+      });
+    } else {
+      await navigator.clipboard.writeText(productUrl);
+      alert("Product link copied!");
+    }
+  };
   return (
     <div
       className="group h-full flex flex-col cursor-pointer"

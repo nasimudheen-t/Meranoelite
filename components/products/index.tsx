@@ -7,7 +7,7 @@ import { ProductGrid } from "./product-grid";
 import { ProductHero } from "./product-hero";
 import { ProductSidebar } from "./product-sidebar";
 import { ProductSearch } from "./product-search";
-import { ProductModal } from "./product-modal";
+import { useRouter } from "next/navigation";
 import { ProductsLoading } from "./products-loading";
 import type { Product } from "@/types/product";
 import { getProducts } from "@/lib/products";
@@ -21,7 +21,7 @@ export function ProductsClient() {
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const router = useRouter();
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -373,7 +373,7 @@ const divisionProducts = useMemo(() => {
             {/* PRODUCTS */}
             <ProductGrid
               products={paginatedProducts}
-              onProductClick={(product) => setSelectedProduct(product)}
+              onProductClick={(product) => router.push(`/products/${product.id}`)}
             />
 
             {/* PAGINATION */}
@@ -401,11 +401,6 @@ const divisionProducts = useMemo(() => {
         </div>
       </div>
 
-      <ProductModal
-        product={selectedProduct}
-        isOpen={!!selectedProduct}
-        onClose={() => setSelectedProduct(null)}
-      />
     </div>
   );
 }

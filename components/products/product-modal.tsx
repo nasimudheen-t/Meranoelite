@@ -1,8 +1,9 @@
+"use client";
+
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import { X, Share2 } from "lucide-react";
 import Image from "next/image";
 import type { Product } from "@/types/product";
-import { API_URL } from "@/lib/api";
 import { useState, useEffect } from "react";
 
 interface ProductModalProps {
@@ -11,7 +12,11 @@ interface ProductModalProps {
   onClose: () => void;
 }
 
-export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
+export function ProductModal({
+  product,
+  isOpen,
+  onClose,
+}: ProductModalProps) {
   const [selectedImage, setSelectedImage] = useState("");
 
   useEffect(() => {
@@ -22,10 +27,46 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
 
   if (!product) return null;
 
+  // Unique URL for this product
+  const productUrl = `https://www.meranoelite.com/products/${product.id}`;
+
+  // Native share - WhatsApp, Instagram, Telegram, etc.
+  const handleShare = async () => {
+    const shareData = {
+      title: product.product_name,
+      text: `Check out ${product.product_name} from Meranoelite`,
+      url: productUrl,
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(productUrl);
+        alert("Product link copied!");
+      }
+    } catch (error) {
+      // User cancelled the share menu
+      console.log("Share cancelled");
+    }
+  };
+
+  // Direct WhatsApp share
+  const handleWhatsAppShare = () => {
+    const message = `Check out ${product.product_name} from Meranoelite:\n${productUrl}`;
+
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(
+      message
+    )}`;
+
+    window.open(whatsappUrl, "_blank");
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
         <>
+          {/* BACKDROP */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -33,6 +74,7 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
             onClick={onClose}
             className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 md:p-10"
           >
+            {/* MODAL */}
             <motion.div
               initial={{
                 opacity: 0,
@@ -52,6 +94,7 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
               onClick={(e) => e.stopPropagation()}
               className="bg-[#0A0A0A] border border-white/10 rounded-3xl w-full max-w-5xl max-h-[90vh] overflow-y-auto overflow-x-hidden flex flex-col md:flex-row shadow-2xl relative"
             >
+              {/* CLOSE BUTTON */}
               <button
                 onClick={onClose}
                 className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center border border-white/10 text-white hover:bg-white/10 transition-colors"
@@ -61,14 +104,14 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
 
               {/* IMAGE SECTION */}
               <div className="w-full md:w-1/2 bg-white/5 p-4 flex flex-col">
-                {/* Main Image Container - Fixed Aspect Ratio */}
+                {/* MAIN IMAGE */}
                 <div className="relative w-full aspect-square rounded-2xl overflow-hidden bg-[#1A1A1A]">
                   {selectedImage ? (
                     <Image
                       src={selectedImage}
                       alt={product.product_name}
                       fill
-                      className="object-contain" // Changed from object-cover to object-contain
+                      className="object-contain"
                       sizes="(max-width: 768px) 100vw, 50vw"
                       priority
                     />
@@ -79,7 +122,7 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
                   )}
                 </div>
 
-                {/* Thumbnail Images - Fixed Size */}
+                {/* THUMBNAILS */}
                 <div className="flex gap-3 mt-4 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-white/20">
                   {product.product_images?.map((image, index) => (
                     <button
@@ -105,24 +148,33 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
 
               {/* CONTENT */}
               <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col">
+                {/* PRODUCT NAME */}
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
                   {product.product_name}
                 </h2>
 
-                <p className="text-white/70 leading-relaxed mb-8 whitespace-pre-line  ">
-                  {product.product_description || "No description available"}
+                {/* DESCRIPTION */}
+                <p className="text-white/70 leading-relaxed mb-8 whitespace-pre-line">
+                  {product.product_description ||
+                    "No description available"}
                 </p>
 
-                <a
-                  href={`https://wa.me/971544936453?text=${encodeURIComponent(
-                    `Hi, I'm interested in ${product.product_name}`,
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-auto w-full py-4 bg-[#25D366] text-white font-semibold rounded-xl hover:opacity-90 transition-colors text-center"
+                {/* SHARE BUTTON */}
+                <button
+                  onClick={handleShare}
+                  className="w-full py-4 mb-3 border border-white/10 bg-white/5 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors flex items-center justify-center gap-3"
+                >
+                  <Share2 className="w-5 h-5" />
+                  Share Product
+                </button>
+
+                {/* WHATSAPP BUTTON */}
+                <button
+                  onClick={handleWhatsAppShare}
+                  className="w-full py-4 bg-[#25D366] text-white font-semibold rounded-xl hover:opacity-90 transition-colors text-center"
                 >
                   Inquire on WhatsApp
-                </a>
+                </button>
               </div>
             </motion.div>
           </motion.div>

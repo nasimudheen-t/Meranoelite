@@ -10,9 +10,8 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen overflow-hidden bg-[#0a0a08]"
+      className="relative min-h-[100dvh] overflow-hidden bg-[#0a0a08]"
     >
-      {/* BACKGROUND VIDEO */}
       {/* BACKGROUND VIDEO */}
       <motion.div
         initial={{ scale: 1.05, opacity: 0 }}
@@ -28,12 +27,11 @@ export function Hero() {
           preload="auto"
           poster="/images/interior-1.png"
           className="
-      absolute inset-0
-      w-full h-full
-      object-cover
-      object-center
-      md:object-center
-    "
+    absolute inset-0
+    w-full h-full
+    object-cover  
+    object-center
+  "
         >
           <source src="/video/video.webm" type="video/webm" />
         </video>
@@ -48,7 +46,7 @@ export function Hero() {
       {/* CONTENT */}
       <motion.div
         style={{ opacity }}
-        className="relative z-10 flex items-center min-h-screen px-8 md:px-16 lg:px-24"
+        className="relative z-10 flex items-center min-h-[100dvh] px-8 md:px-16 lg:px-24"
       >
         <div className="max-w-[620px]">
           {/* EYEBROW */}

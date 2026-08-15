@@ -76,6 +76,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
     const shareData = {
       title: product.product_name,
       text: `${product.product_name}\n${productUrl}`,
+      url: productUrl,
       files: [file],
     };
 
@@ -124,6 +125,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
     const shareData = {
       title: product.product_name,
       text: `${product.product_name}\n${productUrl}`,
+      url: productUrl,
       files: [file],
     };
 

@@ -78,7 +78,7 @@ export function Hero() {
             <span className="text-[#d6b278] italic">Modern Living</span>
           </motion.h1>
 
-          {/* DESCRIPTION */}
+          {/* DESCRIPTIONs */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

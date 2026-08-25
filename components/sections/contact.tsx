@@ -127,6 +127,7 @@ export function Contact() {
                   icon: Phone,
                   title: "Phone Number",
                   content: "+971544936453",
+                  // content: "+971502475017",
                 },
                 {
                   icon: Mail,

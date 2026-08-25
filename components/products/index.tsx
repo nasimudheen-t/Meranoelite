@@ -47,26 +47,24 @@ export function ProductsClient() {
     }
   };
 
-const selectDivision = (division: "Furniture" | "Lighting" | null) => {
-  setActiveDivision(division);
-  setActiveCategory("All");
-  setActiveSubcategory("All");
-  setCurrentPage(1);
-};
+  const selectDivision = (division: "Furniture" | "Lighting" | null) => {
+    setActiveDivision(division);
+    setActiveCategory("All");
+    setActiveSubcategory("All");
+    setCurrentPage(1);
+  };
 
-const divisionProducts = useMemo(() => {
-  if (!activeDivision) return products;
+  const divisionProducts = useMemo(() => {
+    if (!activeDivision) return products;
 
-  return products.filter((product: any) => {
-    const isFurniture = furnitureCategories.includes(
-      (product.category || "").trim()
-    );
+    return products.filter((product: any) => {
+      const isFurniture = furnitureCategories.includes(
+        (product.category || "").trim(),
+      );
 
-    return activeDivision === "Furniture"
-      ? isFurniture
-      : !isFurniture;
-  });
-}, [products, activeDivision]);
+      return activeDivision === "Furniture" ? isFurniture : !isFurniture;
+    });
+  }, [products, activeDivision]);
 
   const categories = useMemo(() => {
     return [
@@ -144,14 +142,16 @@ const divisionProducts = useMemo(() => {
     return (
       <div className="min-h-screen bg-[#050505] pb-32">
         <div className="relative z-10 mx-auto mt-32 max-w-[1200px] px-6 md:px-10">
-          <div className="text-center mb-16">
+          <div className="mb-16 text-center">
             <span className="mb-4 inline-block rounded-full border border-white/10 bg-white/5 px-5 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-white/60 backdrop-blur-xl">
               Explore Collections
             </span>
+
             <h1 className="text-4xl font-black leading-tight tracking-tight text-white md:text-5xl lg:text-6xl uppercase">
               Select a category
             </h1>
-            <p className="mt-4 text-lg text-white/50 max-w-xl mx-auto">
+
+            <p className="mx-auto mt-4 max-w-xl text-lg text-white/50">
               Choose between our premium designer furniture or our smart
               architectural interior lighting.
             </p>
@@ -163,19 +163,19 @@ const divisionProducts = useMemo(() => {
               onClick={() => selectDivision("Lighting")}
               className="group relative flex flex-col justify-between overflow-hidden rounded-[32px] border border-white/10 bg-[#0d0d0d] p-8 md:p-12 text-left transition-all duration-500 hover:border-white/20 hover:bg-white/[0.02] cursor-pointer shadow-2xl hover:shadow-[0_0_50px_rgba(255,255,255,0.02)]"
             >
-              <div className="space-y-6 w-full">
+              <div className="w-full space-y-6">
                 <div className="relative h-64 w-full overflow-hidden rounded-2xl border border-white/5 bg-white/5">
                   <Image
-                    src="https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&w=800&q=80"
+                    src="/images/light-1.png"
                     alt="Interior Lighting Collection"
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="object-contain transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
                 </div>
 
-                <div className="flex gap-4 items-start">
+                <div className="flex items-start gap-4">
                   <div className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white transition-all duration-500 group-hover:scale-110">
                     <svg
                       className="h-6 w-6 text-[#D9B38C]"
@@ -192,10 +192,12 @@ const divisionProducts = useMemo(() => {
                       />
                     </svg>
                   </div>
+
                   <div>
                     <h2 className="text-3xl font-black uppercase tracking-tight text-white">
                       LIGHTING SOLUTIONS
                     </h2>
+
                     <p className="mt-3 text-base leading-relaxed text-white/50">
                       Innovative, smart, and energy-efficient lighting designs.
                       Enhance your home, commercial, or architectural spaces.
@@ -203,33 +205,36 @@ const divisionProducts = useMemo(() => {
                   </div>
                 </div>
               </div>
-              <div className="mt-8 flex items-center justify-between border-t border-white/5 pt-6 w-full">
-                <span className="text-sm font-semibold uppercase tracking-wider text-[#D9B38C] group-hover:text-white transition-colors duration-300">
+
+              <div className="mt-8 flex w-full items-center justify-between border-t border-white/5 pt-6">
+                <span className="text-sm font-semibold uppercase tracking-wider text-[#D9B38C] transition-colors duration-300 group-hover:text-white">
                   View Collection
                 </span>
+
                 <span className="rounded-full bg-white px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-black transition-transform duration-300 group-hover:translate-x-1.5">
                   Explore →
                 </span>
               </div>
             </button>
+
             {/* Furniture Card */}
             <button
               onClick={() => selectDivision("Furniture")}
               className="group relative flex flex-col justify-between overflow-hidden rounded-[32px] border border-white/10 bg-[#0d0d0d] p-8 md:p-12 text-left transition-all duration-500 hover:border-white/20 hover:bg-white/[0.02] cursor-pointer shadow-2xl hover:shadow-[0_0_50px_rgba(255,255,255,0.02)]"
             >
-              <div className="space-y-6 w-full">
+              <div className="w-full space-y-6">
                 <div className="relative h-64 w-full overflow-hidden rounded-2xl border border-white/5 bg-white/5">
                   <Image
-                    src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80"
+                    src="/images/furniture-1.png"
                     alt="Premium Furniture Collection"
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="object-contain transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
                 </div>
 
-                <div className="flex gap-4 items-start">
+                <div className="flex items-start gap-4">
                   <div className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white transition-all duration-500 group-hover:scale-110">
                     <svg
                       className="h-6 w-6 text-[#D9B38C]"
@@ -246,10 +251,12 @@ const divisionProducts = useMemo(() => {
                       />
                     </svg>
                   </div>
+
                   <div>
                     <h2 className="text-3xl font-black uppercase tracking-tight text-white">
                       Furniture
                     </h2>
+
                     <p className="mt-3 text-base leading-relaxed text-white/50">
                       Premium and stylish furniture solutions tailored for
                       luxury spaces. Discover living room, bedroom, and dining
@@ -258,10 +265,12 @@ const divisionProducts = useMemo(() => {
                   </div>
                 </div>
               </div>
-              <div className="mt-8 flex items-center justify-between border-t border-white/5 pt-6 w-full">
-                <span className="text-sm font-semibold uppercase tracking-wider text-[#D9B38C] group-hover:text-white transition-colors duration-300">
+
+              <div className="mt-8 flex w-full items-center justify-between border-t border-white/5 pt-6">
+                <span className="text-sm font-semibold uppercase tracking-wider text-[#D9B38C] transition-colors duration-300 group-hover:text-white">
                   View Collection
                 </span>
+
                 <span className="rounded-full bg-white px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-black transition-transform duration-300 group-hover:translate-x-1.5">
                   Explore →
                 </span>
@@ -373,7 +382,9 @@ const divisionProducts = useMemo(() => {
             {/* PRODUCTS */}
             <ProductGrid
               products={paginatedProducts}
-              onProductClick={(product) => router.push(`/products/${product.id}`)}
+              onProductClick={(product) =>
+                router.push(`/products/${product.id}`)
+              }
             />
 
             {/* PAGINATION */}
@@ -400,7 +411,6 @@ const divisionProducts = useMemo(() => {
           </div>
         </div>
       </div>
-
     </div>
   );
 }

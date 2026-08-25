@@ -16,6 +16,7 @@ export function ProductsClient() {
   const [activeDivision, setActiveDivision] = useState<
     "Furniture" | "Lighting" | null
   >(null);
+
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeSubcategory, setActiveSubcategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
@@ -29,6 +30,7 @@ export function ProductsClient() {
   const productsPerPage = 15;
 
   const furnitureCategories = ["Office Furniture", "Home Furniture"];
+
   useEffect(() => {
     loadProducts();
   }, []);
@@ -115,7 +117,9 @@ export function ProductsClient() {
     ];
   }, [divisionProducts, activeCategory]);
 
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  const totalPages = Math.ceil(
+    filteredProducts.length / productsPerPage,
+  );
 
   const paginatedProducts = useMemo(() => {
     const startIndex = (currentPage - 1) * productsPerPage;
@@ -158,21 +162,23 @@ export function ProductsClient() {
           </div>
 
           <div className="grid gap-8 md:grid-cols-2">
-            {/* Interior Card */}
+            {/* LIGHTING CARD */}
             <button
               onClick={() => selectDivision("Lighting")}
               className="group relative flex flex-col justify-between overflow-hidden rounded-[32px] border border-white/10 bg-[#0d0d0d] p-8 md:p-12 text-left transition-all duration-500 hover:border-white/20 hover:bg-white/[0.02] cursor-pointer shadow-2xl hover:shadow-[0_0_50px_rgba(255,255,255,0.02)]"
             >
               <div className="w-full space-y-6">
-                <div className="relative h-64 w-full overflow-hidden rounded-2xl border border-white/5 bg-white/5">
+                {/* IMAGE */}
+                <div className="relative h-72 w-full overflow-hidden rounded-2xl border border-white/5 bg-white/5">
                   <Image
                     src="/images/light-1.png"
                     alt="Interior Lighting Collection"
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-contain transition-transform duration-700 group-hover:scale-105"
+                    className="object-cover scale-110 transition-transform duration-700 group-hover:scale-[1.15]"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                 </div>
 
                 <div className="flex items-start gap-4">
@@ -217,21 +223,23 @@ export function ProductsClient() {
               </div>
             </button>
 
-            {/* Furniture Card */}
+            {/* FURNITURE CARD */}
             <button
               onClick={() => selectDivision("Furniture")}
               className="group relative flex flex-col justify-between overflow-hidden rounded-[32px] border border-white/10 bg-[#0d0d0d] p-8 md:p-12 text-left transition-all duration-500 hover:border-white/20 hover:bg-white/[0.02] cursor-pointer shadow-2xl hover:shadow-[0_0_50px_rgba(255,255,255,0.02)]"
             >
               <div className="w-full space-y-6">
-                <div className="relative h-64 w-full overflow-hidden rounded-2xl border border-white/5 bg-white/5">
+                {/* IMAGE */}
+                <div className="relative h-72 w-full overflow-hidden rounded-2xl border border-white/5 bg-white/5">
                   <Image
                     src="/images/furniture-1.png"
                     alt="Premium Furniture Collection"
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-contain transition-transform duration-700 group-hover:scale-105"
+                    className="object-cover scale-110 transition-transform duration-700 group-hover:scale-[1.15]"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                 </div>
 
                 <div className="flex items-start gap-4">
@@ -247,7 +255,7 @@ export function ProductsClient() {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={1.5}
-                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10l-8 4m0-10v10M4 7v10l8 4"
                       />
                     </svg>
                   </div>
@@ -258,8 +266,8 @@ export function ProductsClient() {
                     </h2>
 
                     <p className="mt-3 text-base leading-relaxed text-white/50">
-                      Premium and stylish furniture solutions tailored for
-                      luxury spaces. Discover living room, bedroom, and dining
+                      Premium and stylish furniture solutions tailored for luxury
+                      spaces. Discover living room, bedroom, and dining
                       collections.
                     </p>
                   </div>
@@ -306,9 +314,12 @@ export function ProductsClient() {
                   d="M15 19l-7-7 7-7"
                 />
               </svg>
+
               All Sections
             </button>
+
             <span className="text-white/20">/</span>
+
             <span className="text-lg font-bold uppercase tracking-wider text-white">
               {activeDivision}
             </span>
@@ -325,6 +336,7 @@ export function ProductsClient() {
             >
               Lighting
             </button>
+
             <button
               onClick={() => selectDivision("Furniture")}
               className={`rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
@@ -396,12 +408,11 @@ export function ProductsClient() {
                   <button
                     key={page}
                     onClick={() => goToPage(page)}
-                    className={`h-12 min-w-[48px] rounded-full border text-sm font-semibold transition-all duration-300
-            ${
-              currentPage === page
-                ? "border-white bg-white text-black"
-                : "border-white/10 bg-white/5 text-white hover:bg-white hover:text-black"
-            }`}
+                    className={`h-12 min-w-[48px] rounded-full border text-sm font-semibold transition-all duration-300 ${
+                      currentPage === page
+                        ? "border-white bg-white text-black"
+                        : "border-white/10 bg-white/5 text-white hover:bg-white hover:text-black"
+                    }`}
                   >
                     {page}
                   </button>

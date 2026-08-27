@@ -116,18 +116,19 @@ export function Contact() {
             </p>
 
             {/* CONTACT INFO */}
+            {/* CONTACT INFO */}
             <div className="mt-16 space-y-6">
               {[
                 {
                   icon: MapPin,
                   title: "Visit Office",
-                  content: "M-floorMb-29,City Avenue Building,27 Street,Port Saeed,Deira,Dubai UAE",
+                  content:
+                    "M-floorMb-29,City Avenue Building,27 Street,Port Saeed,Deira,Dubai UAE",
                 },
                 {
                   icon: Phone,
-                  title: "Phone Number",
-                  content: "+971544936453",
-                  // content: "+971502475017",
+                  title: "Phone Numbers",
+                  content: "+971 54 493 6453\n+971 50 247 5017",
                 },
                 {
                   icon: Mail,

@@ -31,9 +31,7 @@ export function Footer() {
                 <Lightbulb className="w-5 h-5" />
               </div>
 
-              <h2 className="text-2xl font-semibold text-white">
-                Meranoelite
-              </h2>
+              <h2 className="text-2xl font-semibold text-white">Meranoelite</h2>
             </Link>
 
             <p className="text-sm leading-7 text-white/50 max-w-sm">
@@ -42,7 +40,6 @@ export function Footer() {
               homes, offices, villas, and commercial developments.
             </p>
           </div>
-
           {/* CENTER */}
           <div className="text-center">
             <h3 className="text-lg font-medium text-white mb-4">
@@ -50,8 +47,8 @@ export function Footer() {
             </h3>
 
             <p className="text-sm leading-7 text-white/45 max-w-sm mx-auto">
-              Smart, modern and premium lighting designs crafted for
-              residential and commercial interiors.
+              Smart, modern and premium lighting designs crafted for residential
+              and commercial interiors.
             </p>
 
             {/* SOCIAL MEDIA */}
@@ -74,27 +71,35 @@ export function Footer() {
                 <Facebook className="w-5 h-5 text-white/70 group-hover:text-black" />
               </a>
 
-               <a
-                  href={`https://wa.me/971544936453`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                   className="group flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-[#171717] transition-all duration-300 hover:bg-white"
-                >
+              <a
+                href={`https://wa.me/971544936453`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-[#171717] transition-all duration-300 hover:bg-white"
+              >
                 <MessageCircle className="w-5 h-5 text-white/70 group-hover:text-black" />
               </a>
             </div>
           </div>
-
+          {/* RIGHT */}
+          
           {/* RIGHT */}
           <div>
             <div className="flex items-center gap-2 mb-4">
               <Mail className="w-5 h-5 text-[#D9B38C]" />
-              <h3 className="text-lg font-medium text-white">
-                Contact Email
-              </h3>
+              <h3 className="text-lg font-medium text-white">Contact</h3>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-3">
+              {/* LANDLINE */}
+              <a
+                href="tel:+971543129550"
+                className="block text-sm text-white/55 transition-colors hover:text-[#D9B38C]"
+              >
+                Landline: +971 543 129 550
+              </a>
+
+              {/* EXISTING EMAIL */}
               {emails.map((email) => (
                 <a
                   key={email}
@@ -106,6 +111,7 @@ export function Footer() {
               ))}
             </div>
           </div>
+        
         </div>
 
         {/* BOTTOM */}

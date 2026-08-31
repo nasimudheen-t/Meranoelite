@@ -192,7 +192,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
   const handleWhatsAppInquire = () => {
     const message = `Hello, I would like to inquire about this product:\n\n${product.product_name}\n${productUrl}`;
-    const whatsappUrl = `https://wa.me/971544936453?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/971502475017?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank");
   };
 

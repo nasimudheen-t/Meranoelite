@@ -96,7 +96,7 @@ export function Footer() {
                 href="tel:+971543129550"
                 className="block text-sm text-white/55 transition-colors hover:text-[#D9B38C]"
               >
-                Landline: +971 543 129 550
+                Landline: +97145118940
               </a>
 
               {/* EXISTING EMAIL */}

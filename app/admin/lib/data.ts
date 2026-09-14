@@ -59,6 +59,7 @@ export const categories = {
   "Filing Cabinets",
   "Meeting Tables",
   "Reception Tables & sofas",
+  "Workstation Tables"
   ,
 ],
  "Home Furniture" : [

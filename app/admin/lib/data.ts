@@ -9,6 +9,7 @@ export const categories = {
     "Magnetic Track Lights",
     "Recessed Lights",
     "Surface-Mounted Lights",
+    "Strip light"
   ],
 
   "Decorative Lighting": [

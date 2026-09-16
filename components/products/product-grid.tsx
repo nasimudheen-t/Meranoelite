@@ -23,8 +23,7 @@ export function ProductGrid({ products, onProductClick }: ProductGridProps) {
   console.log("products", products);
 
   return (
-    <div className="grid w-full gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 2xl:grid-cols-5">
-      {" "}
+    <div className="grid w-full grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 2xl:grid-cols-5">
       {products.map((product, index) => (
         <motion.div
           key={product.id}
@@ -37,6 +36,7 @@ export function ProductGrid({ products, onProductClick }: ProductGridProps) {
             once: true,
             margin: "-50px",
           }}
+          className="min-w-0"
         >
           <ProductCard product={product} onClick={onProductClick} />
         </motion.div>

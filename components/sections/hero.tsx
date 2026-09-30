@@ -33,7 +33,7 @@ export function Hero() {
     object-center
   "
         >
-          <source src="/video/video-3.webm  " type="video/webm" />
+          <source src="/video/video-4.mp4  " type="video/webm" />
         </video>
 
         {/* DARK OVERLAY */}
